@@ -1,3 +1,20 @@
+export type BoatResult = BoatSailedResult | BoatNotSailedResult;
+
+export interface BoatSailedResult {
+  element: HTMLElement;
+  html: string;
+  isCts: boolean;
+  isDiscard: boolean;
+  score: number;
+  code: string | null;
+}
+
+export interface BoatNotSailedResult {
+  element: HTMLElement;
+  html: string;
+  isNotSailed: true;
+}
+
 export class Boat {
   // The finishing rank.
   rank: number | 'DNQ';
@@ -12,7 +29,8 @@ export class Boat {
     total?: Element;
   };
 
-  races: unknown[];
+  races: BoatResult[];
+
   constructor(partial: Partial<Boat>) {
     this.rank = partial.rank ?? 'DNQ';
     this.elements = partial.elements ?? {};

@@ -20,8 +20,8 @@
   "scripts": {
     "build": "npm run build:clean && rollup -c && tsc --project tsconfig.types.json",
     "build:clean": "rimraf \"index.*\" types --glob",
-    "lint:fix": "eslint . --fix --ignore-path .gitignore && prettier . \"!examples\" --write --ignore-path .gitignore",
-    "lint:check": "eslint . --ignore-path .gitignore && prettier . \"!examples\" --check --ignore-path .gitignore",
+    "lint:fix": "prettier . \"!examples\" --write --ignore-path .gitignore && eslint . --fix --ignore-path .gitignore",
+    "lint:check": "prettier . \"!examples\" --check --ignore-path .gitignore && eslint . --ignore-path .gitignore",
     "test:unit": "mocha test/unit/**/*.{spec,test}.{ts,js,?js}"
   },
   "devDependencies": {
@@ -36,6 +36,7 @@
     "@typescript-eslint/parser": "^5.61.0",
     "chai": "^4.3.7",
     "eslint": "^8.44.0",
+    "eslint-plugin-mocha": "^10.1.0",
     "jsdom": "^22.1.0",
     "mocha": "^10.2.0",
     "prettier": "^3.0.0",

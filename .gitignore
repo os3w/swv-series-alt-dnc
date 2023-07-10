@@ -6,6 +6,3 @@ package-lock.json
 # Distribution files.
 types
 /index.*
-
-# Dowloads for testing.
-downloads

@@ -1,1 +1,2 @@
-export { version } from '../package.json';
+export { version } from './version';
+export { parseResultsHtml } from './results-file';

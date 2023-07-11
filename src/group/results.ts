@@ -5,15 +5,15 @@ import {
   BoatSailedResult,
 } from './boat';
 import { Column } from './column';
-import { Race } from './race';
 import { cameToStartingArea } from './result-codes';
 
+/*
 export class Results {
-  /** The boats entered in this group. */
+  /** The boats entered in this group. * /
   boats: Boat[];
-  /** The columns of the results table. */
+  /** The columns of the results table. * /
   columns: Column[];
-  /** Races for this group (may not all be sailed). */
+  /** Races for this group (may not all be sailed). * /
   races: Race[];
 
   constructor(partial: Partial<Results>) {
@@ -22,13 +22,14 @@ export class Results {
     this.races = partial.races ?? [];
   }
 }
+*/
 
-class ResultsParser implements Partial<Results> {
+class ResultsParser {
   boats: Boat[] = [];
   columns: Column[] = [];
-  races: Race[] = [];
+  raceCount = 0;
 
-  parse(tableElement: Element): Partial<Results> {
+  parse(tableElement: Element): this {
     for (const node of tableElement.children) {
       switch (node.nodeName) {
         case 'COLGROUP':
@@ -65,8 +66,8 @@ class ResultsParser implements Partial<Results> {
           this.columns.push({ type: className });
           break;
         case 'race':
-          this.columns.push({ type: className, index: this.races.length });
-          this.races.push({});
+          this.columns.push({ type: className, index: this.raceCount });
+          ++this.raceCount;
           break;
         default:
           this.columns.push({ type: 'label', name: className });
@@ -151,15 +152,16 @@ class ResultsParser implements Partial<Results> {
   }
 }
 
+/**
+ * Parse a displayed rank value (e.g. '1st') to its numerical value.
+ *
+ * @param text The displayed rank.
+ * @returns The numerical value of the rank, or DNQ.
+ */
 export const parseRank = (text: string | null): number | 'DNQ' => {
   if (text === null) return 'DNQ';
   if (text === 'DNQ') return text;
-  return parseInt(text);
-};
-
-export const parseResultsTable = (element: Element) => {
-  const partial = new ResultsParser().parse(element);
-  return new Results(partial);
+  return parseFloat(text);
 };
 
 export const parseRaceScore = (text: string) => {
@@ -172,6 +174,22 @@ export const parseRaceScore = (text: string) => {
   return { isCts, isDiscard, score, code };
 };
 
+/**
+ * Extract results for each boat from a summary results table.
+ *
+ * @param element the <table> element.
+ * @returns the results.
+ */
+export const parseResultsTable = (element: Element): ResultsParser => {
+  return new ResultsParser().parse(element);
+};
+
+/**
+ * Convert a (possibly null) string to a numerical score x 10.
+ *
+ * @param text the displayed score.
+ * @returns the score x 10.
+ */
 export const parseValue = (text: string | null): number => {
   if (text === null) return 0;
   return Math.round(parseFloat(text) * 10);

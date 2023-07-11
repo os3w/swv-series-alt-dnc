@@ -10,7 +10,7 @@
   "keywords": [],
   "main": "index.cjs",
   "browser": "index.min.js",
-  "module": "index.js",
+  "module": "./index.js",
   "type": "module",
   "types": "types/index.d.ts",
   "files": [

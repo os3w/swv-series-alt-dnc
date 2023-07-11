@@ -1,5 +1,11 @@
 export type BoatResult = BoatSailedResult | BoatNotSailedResult;
 
+export interface BoatNotSailedResult {
+  element: HTMLElement;
+  html: string;
+  isNotSailed: true;
+}
+
 export interface BoatSailedResult {
   element: HTMLElement;
   html: string;
@@ -7,12 +13,6 @@ export interface BoatSailedResult {
   isDiscard: boolean;
   score: number;
   code: string | null;
-}
-
-export interface BoatNotSailedResult {
-  element: HTMLElement;
-  html: string;
-  isNotSailed: true;
 }
 
 export class Boat {

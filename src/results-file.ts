@@ -1,17 +1,17 @@
-import { parseScoredGroup, ScoredGroup } from './scored-group/scored-group';
+import { parseGroup, Group } from './group';
 
 class Parser {
   parse(doc: Document) {
-    const scoredGroupTitleElements = doc.querySelectorAll('.summarytitle');
-    const scoredGroups: ScoredGroup[] = [];
-    scoredGroupTitleElements.forEach((el) => {
-      const group = parseScoredGroup(el);
+    const groupTitleElements = doc.querySelectorAll('.summarytitle');
+    const groups: Group[] = [];
+    groupTitleElements.forEach((el) => {
+      const group = parseGroup(el);
       if (group) {
-        scoredGroups.push(group);
+        groups.push(group);
       }
     });
     return {
-      scoredGroups,
+      groups,
     };
   }
 }

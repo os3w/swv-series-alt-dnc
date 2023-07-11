@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 
 import { parseResultsHtml } from '../../src/results-file';
-import { BoatSailedResult } from '../../src/scored-group/boat';
+import { BoatSailedResult } from '../../src/group/boat';
 
 const content = readFileSync(
   './examples/results-v2-groups-all-races.html',
@@ -15,10 +15,10 @@ const results = parseResultsHtml(document);
 
 describe('Results file functions', function () {
   it('should parse an ordinary result', function () {
-    const group = results.scoredGroups[3];
+    const group = results.groups[3];
     expect(group.id).to.equal('handicap');
 
-    const result = group.results.boats[0].races[3] as BoatSailedResult;
+    const result = group.boats[0].races[3] as BoatSailedResult;
     expect(result).not.to.have.property('isNotSailed');
     expect(result.isCts).to.be.true;
     expect(result.score).to.equal(10);
@@ -27,10 +27,10 @@ describe('Results file functions', function () {
   });
 
   it('should parse an OOD result', function () {
-    const group = results.scoredGroups[2];
+    const group = results.groups[2];
     expect(group.id).to.equal('enterprise');
 
-    const result = group.results.boats[0].races[0] as BoatSailedResult;
+    const result = group.boats[0].races[0] as BoatSailedResult;
     expect(result).not.to.have.property('isNotSailed');
     expect(result.isCts).to.be.false;
     expect(result.score).to.equal(13);
@@ -39,10 +39,10 @@ describe('Results file functions', function () {
   });
 
   it('should parse a DNF', function () {
-    const group = results.scoredGroups[0];
+    const group = results.groups[0];
     expect(group.id).to.equal('all_in_handicap');
 
-    const result = group.results.boats[4].races[7] as BoatSailedResult;
+    const result = group.boats[4].races[7] as BoatSailedResult;
     expect(result).not.to.have.property('isNotSailed');
     expect(result.isCts).to.be.true;
     expect(result.score).to.equal(120);
@@ -51,10 +51,10 @@ describe('Results file functions', function () {
   });
 
   it('should parse a discarded DNF', function () {
-    const group = results.scoredGroups[3];
+    const group = results.groups[3];
     expect(group.id).to.equal('handicap');
 
-    const result = group.results.boats[1].races[7] as BoatSailedResult;
+    const result = group.boats[1].races[7] as BoatSailedResult;
     expect(result).not.to.have.property('isNotSailed');
     expect(result.isCts).to.be.true;
     expect(result.score).to.equal(40);

@@ -209,8 +209,11 @@ export const formatSailedResult = ({
   isDiscard,
   score,
 }: BoatSailedResult) => {
-  const text = code ? `${formatScore(score)} ${code}` : formatScore(score);
-  return isDiscard ? `(${text})` : text;
+  // Sailwave Effects import breaks on template strings so don't use them.
+  // const text = code ? `${formatScore(score)} ${code}` : formatScore(score);
+  // return isDiscard ? `(${text})` : text;
+  const text = code ? formatScore(score) + ' ' + code : formatScore(score);
+  return isDiscard ? '(' + text + ')' : text;
 };
 
 export const formatScore = (score: number) => (score / 10).toFixed(1);

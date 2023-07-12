@@ -29,7 +29,7 @@ const banner = `/*!
 `;
 
 // Target ECMAScript version (es2017 is good for all modern browsers in 2023).
-const target = 'es5';
+const target = 'es2017';
 
 export default [
   {
@@ -50,7 +50,7 @@ export default [
         },
       }),
 
-      terser({ output: { comments: /^!/, max_line_len: 999 }}),
+      terser({ output: { comments: /^!/, max_line_len: 999 } }),
     ],
   },
   {

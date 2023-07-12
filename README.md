@@ -5,7 +5,7 @@
 ## Examples
 
 View the files in the examples folder for [before](./examples/base.html) and
-[after](./examples/alt-dnc.html).  You need to open them in a browser with
+[after](./examples/alt-dnc.html). You need to open them in a browser with
 JavaScript enabled because it all happens in the front end.
 
 ## Development

@@ -199,3 +199,18 @@ export const parseValue = (text: string | null): number => {
   if (text === null) return 0;
   return Math.round(parseFloat(text) * 10);
 };
+
+/**
+ *
+ * @param result
+ */
+export const formatSailedResult = ({
+  code,
+  isDiscard,
+  score,
+}: BoatSailedResult) => {
+  const text = code ? `${formatScore(score)} ${code}` : formatScore(score);
+  return isDiscard ? `(${text})` : text;
+};
+
+export const formatScore = (score: number) => (score / 10).toFixed(1);

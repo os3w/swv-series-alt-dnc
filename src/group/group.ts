@@ -1,7 +1,8 @@
-import { parseResultsTable } from './results';
+import { parseResultsTable, formatSailedResult, formatScore } from './results';
 import { Boat, BoatNotSailedResult, BoatSailedResult } from './boat';
 import { Column } from './column';
 import { SailedRace, NotSailedRace, Race } from './race';
+import { calculateDiscards } from '../score';
 
 /**
  * A group (also referred to as a "Scored Group") is a set of boats that are
@@ -24,6 +25,72 @@ export class Group {
     this.resultsColumns = partial.resultsColumns ?? [];
     this.qualifiedCount = partial.qualifiedCount ?? 0;
     this.races = processRaces(this, raceCount);
+  }
+
+  recalculate() {
+    this.recalculateDiscards();
+    // this.recalculateRankings();
+  }
+
+  protected recalculateDiscards() {
+    for (const boat of this.boats) {
+      // Calculate the number of discards allowed and collect the scores for
+      // each race.
+      let discardsAllowed = 0;
+      let totalScore = 0;
+      const scores = [];
+      for (const result of boat.races) {
+        if ((result as BoatNotSailedResult).isNotSailed) {
+          // Still add the score so we get the index right.
+          scores.push(-Infinity);
+          continue;
+        }
+        const { isDiscard, score } = result as BoatSailedResult;
+        if (isDiscard) {
+          // Count the number allowed and then forget it.
+          ++discardsAllowed;
+          (result as BoatSailedResult).isDiscard = false;
+        }
+        totalScore += score;
+        scores.push(score);
+      }
+      // Get which results to discard.
+      const discardIndexes = calculateDiscards(scores, discardsAllowed);
+
+      // Mark the appropriate races.
+      let netScore = totalScore;
+      for (const index of discardIndexes) {
+        const result = boat.races[index] as BoatSailedResult;
+        result.isDiscard = true;
+        netScore -= result.score;
+      }
+
+      // Set the totals for the boat and we are done.
+      boat.total = totalScore;
+      boat.net = netScore;
+    }
+  }
+
+  render() {
+    // Reorder the DOM to suit the new ranking.
+    // Update all the scores in the DOM.
+    for (const boat of this.boats) {
+      for (const result of boat.races) {
+        if ((result as BoatNotSailedResult).isNotSailed) {
+          // Skip races not sailed.
+          continue;
+        }
+        result.element.textContent = formatSailedResult(
+          result as BoatSailedResult,
+        );
+      }
+
+      // Check these exist to avoid any problems.
+      if (boat.elements.net && boat.elements.total) {
+        boat.elements.net.textContent = formatScore(boat.net);
+        boat.elements.total.textContent = formatScore(boat.total);
+      }
+    }
   }
 }
 

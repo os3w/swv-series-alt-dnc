@@ -1,0 +1,48 @@
+{
+  "name": "swv-series-alt-dnc",
+  "private": "true",
+  "description": "Effect for alternative calulation of DNC results for a Sailwave series",
+  "version": "1.0.0-alpha-01",
+  "license": "MIT",
+  "author": "os3w (https://github.com/os3w)",
+  "repository": "github:os3w/swv-series-alt-dnc",
+  "homepage": "https://github.com/os3w/swv-series-alt-dnc",
+  "bugs": "https://github.com/os3w/swv-series-alt-dnc/issues",
+  "keywords": [],
+  "main": "index.cjs",
+  "browser": "index.min.js",
+  "module": "./index.js",
+  "type": "module",
+  "types": "types/index.d.ts",
+  "files": [
+    "index.*",
+    "types"
+  ],
+  "scripts": {
+    "build": "npm run build:clean && rollup -c && tsc --project tsconfig.types.json",
+    "build:clean": "rimraf \"index.*\" types --glob",
+    "lint:fix": "prettier . \"!examples\" --write --ignore-path .gitignore && eslint . --fix --ignore-path .gitignore",
+    "lint:check": "prettier . \"!examples\" --check --ignore-path .gitignore && eslint . --ignore-path .gitignore",
+    "test:unit": "mocha test/unit/**/*.{spec,test}.{ts,js,?js}"
+  },
+  "devDependencies": {
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/chai": "^4.3.5",
+    "@types/jsdom": "^21.1.1",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "chai": "^4.3.7",
+    "eslint": "^8.44.0",
+    "eslint-plugin-mocha": "^10.1.0",
+    "jsdom": "^22.1.0",
+    "mocha": "^10.2.0",
+    "prettier": "^3.0.0",
+    "rollup": "^3.26.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}

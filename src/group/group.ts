@@ -1,5 +1,5 @@
 import { parseResultsTable } from './results';
-import { Boat } from './boat';
+import { Boat, BoatNotSailedResult, BoatSailedResult } from './boat';
 import { Column } from './column';
 import { SailedRace, NotSailedRace, Race } from './race';
 
@@ -14,6 +14,7 @@ export class Group {
   boats: Boat[];
   resultsColumns: Column[];
   races: Race[];
+  qualifiedCount: number;
 
   constructor(partial: Partial<Group>, raceCount: number) {
     this.id = partial.id ?? null;
@@ -21,6 +22,7 @@ export class Group {
     this.title = partial.title ?? '';
     this.boats = partial.boats ?? [];
     this.resultsColumns = partial.resultsColumns ?? [];
+    this.qualifiedCount = partial.qualifiedCount ?? 0;
     this.races = processRaces(this, raceCount);
   }
 }
@@ -48,6 +50,7 @@ export const parseGroup = (titleElement: Element): Group => {
       // Process the results table.
       const results = parseResultsTable(el);
       raceCount = results.raceCount;
+      partialGroup.qualifiedCount = results.qualifiedCount;
       partialGroup.boats = results.boats;
       partialGroup.resultsColumns = results.columns;
     }
@@ -63,9 +66,9 @@ const processRaces = (group: Group, raceCount: number): Race[] => {
     const race: Partial<Race> = {};
     // Look at each boat's result for the race.
     for (const { races } of group.boats) {
-      const result = races[i];
+      const result = races[i] as BoatSailedResult;
 
-      if ('isNotSailed' in result) {
+      if ((result as unknown as BoatNotSailedResult).isNotSailed) {
         if (race.isSailed) {
           // If a race is sailed we should have a score for every competitor,
           // but if we do not we will ignore it.
@@ -75,7 +78,6 @@ const processRaces = (group: Group, raceCount: number): Race[] => {
         continue;
       }
 
-      // We can now upgrade race to a SailedRace.
       if (!(race.isSailed === true)) {
         race.isSailed = true;
         (race as SailedRace).ctsCount = 0;

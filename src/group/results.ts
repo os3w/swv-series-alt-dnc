@@ -5,7 +5,7 @@ import {
   BoatSailedResult,
 } from './boat';
 import { Column } from './column';
-import { cameToStartingArea } from './result-codes';
+import { cameToStartingArea } from '../result-codes';
 
 /*
 export class Results {
@@ -24,10 +24,13 @@ export class Results {
 }
 */
 
+export const DNQ = 'DNQ';
+
 class ResultsParser {
   boats: Boat[] = [];
   columns: Column[] = [];
   raceCount = 0;
+  qualifiedCount = 0;
 
   parse(tableElement: Element): this {
     for (const node of tableElement.children) {
@@ -116,6 +119,9 @@ class ResultsParser {
         case 'rank':
           boat.elements.rank = node;
           boat.rank = parseRank(node.textContent);
+          if (boat.rank !== DNQ) {
+            ++this.qualifiedCount;
+          }
           break;
         case 'total':
           boat.elements.total = node;
@@ -159,8 +165,7 @@ class ResultsParser {
  * @returns The numerical value of the rank, or DNQ.
  */
 export const parseRank = (text: string | null): number | 'DNQ' => {
-  if (text === null) return 'DNQ';
-  if (text === 'DNQ') return text;
+  if (text === null || text === DNQ) return DNQ;
   return parseFloat(text);
 };
 

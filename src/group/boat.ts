@@ -1,3 +1,5 @@
+import { DNQ } from '../result-codes';
+
 export type BoatResult = BoatSailedResult | BoatNotSailedResult;
 
 export interface BoatNotSailedResult {
@@ -32,7 +34,7 @@ export class Boat {
   races: BoatResult[];
 
   constructor(partial: Partial<Boat>) {
-    this.rank = partial.rank ?? 'DNQ';
+    this.rank = partial.rank ?? DNQ;
     this.elements = partial.elements ?? {};
     this.net = partial.net ?? Infinity;
     this.total = partial.total ?? Infinity;

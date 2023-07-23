@@ -3,7 +3,9 @@
 node_modules
 package-lock.json
 
-# Distribution files.
-dist
+# Module distribution files.
 types
 /index.*
+
+# Do NOT ignore browser entry points.
+# dist

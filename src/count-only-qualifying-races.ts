@@ -1,5 +1,6 @@
 import { version } from './version';
 import { parseResultsHtml, rescoreQualifyingRaces } from '.';
+import { recalculateGroup, renderGroup } from './scored-group/group';
 
 const addCaption = () => {
   const $title = document.querySelector('.seriestitle');
@@ -16,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const results = parseResultsHtml(document);
   for (const group of results.groups) {
     rescoreQualifyingRaces(group);
-    group.recalculate();
-    group.render();
+    recalculateGroup(group);
+    renderGroup(group);
   }
   addCaption();
 });

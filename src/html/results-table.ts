@@ -1,13 +1,15 @@
-import { Competitor } from '../scored-group/competitor';
-import {
-  cameToStartingArea,
+import { cameToStartingArea, DNQ } from '../scored-group';
+
+import { parseValue } from './helpers';
+
+import type {
   NotSailedResult,
   Result,
   SailedResult,
 } from '../scored-group/result';
-import { Column } from './column';
-import { DNQ } from '../scored-group/result';
-import { parseValue } from './helpers';
+
+import type { Competitor } from '../scored-group/competitor';
+import type { Column } from './column';
 
 class ResultsHtmlParser {
   competitors: Competitor[] = [];

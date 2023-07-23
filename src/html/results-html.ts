@@ -1,5 +1,4 @@
-// @REVISIT parsing belongs here.
-import { parseGroup } from '../scored-group';
+import { parseGroup } from './group';
 
 import type { Group } from '../scored-group/group';
 

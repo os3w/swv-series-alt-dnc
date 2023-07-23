@@ -1,3 +1,4 @@
-export { parseResultsTable } from './parse-results-table';
-export { parseResultsHtml } from './parse-results-html';
+export { parseGroup, renderGroup } from './group';
 export { formatSailedResult, formatScore } from './helpers';
+export { parseResultsHtml } from './results-html';
+export { parseResultsTable } from './results-table';

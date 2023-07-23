@@ -1,6 +1,10 @@
-import { version } from './version';
-import { parseResultsHtml, rescoreQualifyingRaces } from '.';
-import { recalculateGroup, renderGroup } from './scored-group/group';
+import {
+  version,
+  parseResultsHtml,
+  rescoreQualifyingRaces,
+  recalculateGroup,
+  renderGroup,
+} from '.';
 
 const addCaption = () => {
   const $title = document.querySelector('.seriestitle');

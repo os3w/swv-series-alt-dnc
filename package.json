@@ -1,8 +1,8 @@
 {
   "name": "swv-series-alt-dnc",
   "private": "true",
-  "description": "Effect for alternative calulation of DNC results for a Sailwave series",
-  "version": "1.0.0-alpha-01",
+  "description": "Effects for Sailwave including alternative calulation of series results.",
+  "version": "0.1.0-beta-01",
   "license": "MIT",
   "author": "os3w (https://github.com/os3w)",
   "repository": "github:os3w/swv-series-alt-dnc",
@@ -20,9 +20,9 @@
   ],
   "scripts": {
     "build": "npm run build:clean && rollup -c && tsc --project tsconfig.types.json",
-    "build:clean": "rimraf \"index.*\" types --glob",
-    "lint:fix": "prettier . \"!examples\" --write --ignore-path .gitignore && eslint . --fix --ignore-path .gitignore",
-    "lint:check": "prettier . \"!examples\" --check --ignore-path .gitignore && eslint . --ignore-path .gitignore",
+    "build:clean": "rimraf \"index.*\" types dist --glob",
+    "lint:fix": "prettier . \"!examples\" --write --ignore-path .eslintignore && eslint . --fix",
+    "lint:check": "prettier . \"!examples\" --check --ignore-path .eslintignore && eslint .",
     "test:unit": "mocha test/unit/**/*.{spec,test}.{ts,js,?js}"
   },
   "devDependencies": {

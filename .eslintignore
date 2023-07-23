@@ -1,0 +1,8 @@
+# .eslintignore
+
+package-lock.json
+
+# Distribution files.
+dist
+types
+/index.*

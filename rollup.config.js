@@ -29,11 +29,11 @@ const banner = `/*!
 `;
 
 // Target ECMAScript version (es2017 is good for all modern browsers in 2023).
-const target = 'es5';
+const target = 'es2017';
 
-export default [
+const builds = [
   {
-    input: './src/browser-entry.ts',
+    input: './src/index.ts',
     output: {
       name,
       file: 'index.min.js',
@@ -50,7 +50,7 @@ export default [
         },
       }),
 
-      terser({ output: { comments: /^!/, max_line_len: 999 }}),
+      terser({ output: { comments: /^!/, max_line_len: 999 } }),
     ],
   },
   {
@@ -80,3 +80,66 @@ export default [
     ],
   },
 ];
+
+const warning = ` * Note that this effect only modifies the results that are DISPLAYED when a
+ * results file is viewed in a browser with JavaScript enabled; the results
+ * stored in the html file are unchanged. For more information see
+ * https://github.com/os3w/swv-series-alt-dnc#result-modifying-effects.`;
+
+const sailwaveEffectBuilds = [
+  {
+    input: './src/count-only-qualifiers.ts',
+    file: './dist/CountOnlyQualifiers.js',
+    banner: `/*!
+ * name=Count Only Qualifiers
+ * dependencies=
+ * author=${pkg.author}
+ * version=${pkg.version}
+ * date=${datetime.slice(0, 10)}
+ * url=${pkg.homepage}
+ * 
+ * Rescore DNC results based on the number of competitors qualifying according
+ * to the amendments to the Racing Rules of Sailing described at
+ * ${pkg.homepage}#count-only-qualifiers
+ *
+${warning}
+ */
+${banner}
+`,
+  },
+  {
+    input: './src/count-only-qualifying-races.ts',
+    file: './dist/CountOnlyQualifyingRaces.js',
+    banner: `/*!
+ * name=Count Only Qualifying Races
+ * dependencies=
+ *
+ * author=${pkg.author}
+ * version=${pkg.version}
+ * date=${datetime.slice(0, 10)}
+ * url=${pkg.homepage}
+ *
+ * Exclude races and rescore DNC results based on the number of competitors
+ * qualifying according to the amendments to the Racing Rules of Sailing
+ * described at ${pkg.homepage}#count-only-qualifying-races.
+ *
+${warning}
+ */
+${banner}
+`,
+  },
+];
+
+for (const { input, file, banner } of sailwaveEffectBuilds) {
+  builds.push({
+    input,
+    output: { file, format: 'iife', banner },
+    plugins: [
+      json(),
+      typescript({ compilerOptions: { target } }),
+      terser({ output: { comments: /^!/, max_line_len: 999 } }),
+    ],
+  });
+}
+
+export default builds;

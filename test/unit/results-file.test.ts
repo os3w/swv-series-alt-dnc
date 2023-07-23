@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 
-import { parseResultsHtml } from '../../src/results-file';
-import { BoatSailedResult } from '../../src/group/boat';
+import { parseResultsHtml } from '../../src/html';
+import { getSailedResult, SailedResult } from '../../src/scored-group/result';
 
 const content = readFileSync(
   './examples/results-v2-groups-all-races.html',
@@ -30,8 +30,9 @@ describe('Results file functions', function () {
       const group = results.groups[3];
       expect(group.id).to.equal('handicap');
 
-      const result = group.boats[0].races[3] as BoatSailedResult;
-      expect(result).not.to.have.property('isNotSailed');
+      const result = getSailedResult(
+        group.competitors[0].results[3],
+      ) as SailedResult;
       expect(result.isCts).to.be.true;
       expect(result.score).to.equal(10);
       expect(result.code).to.be.null;
@@ -42,8 +43,7 @@ describe('Results file functions', function () {
       const group = results.groups[2];
       expect(group.id).to.equal('enterprise');
 
-      const result = group.boats[0].races[0] as BoatSailedResult;
-      expect(result).not.to.have.property('isNotSailed');
+      const result = group.competitors[0].results[0] as SailedResult;
       expect(result.isCts).to.be.false;
       expect(result.score).to.equal(13);
       expect(result.code).to.equal('OOD');
@@ -54,8 +54,7 @@ describe('Results file functions', function () {
       const group = results.groups[0];
       expect(group.id).to.equal('all_in_handicap');
 
-      const result = group.boats[4].races[7] as BoatSailedResult;
-      expect(result).not.to.have.property('isNotSailed');
+      const result = group.competitors[4].results[7] as SailedResult;
       expect(result.isCts).to.be.true;
       expect(result.score).to.equal(120);
       expect(result.code).to.equal('DNF');
@@ -66,8 +65,7 @@ describe('Results file functions', function () {
       const group = results.groups[3];
       expect(group.id).to.equal('handicap');
 
-      const result = group.boats[1].races[7] as BoatSailedResult;
-      expect(result).not.to.have.property('isNotSailed');
+      const result = group.competitors[1].results[7] as SailedResult;
       expect(result.isCts).to.be.true;
       expect(result.score).to.equal(40);
       expect(result.code).to.equal('DNF');

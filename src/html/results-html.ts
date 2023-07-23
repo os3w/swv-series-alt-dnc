@@ -1,4 +1,6 @@
-import { parseGroup, Group } from './group';
+import { parseGroup } from './group';
+
+import type { Group } from '../scored-group/group';
 
 class Parser {
   parse(doc: Document) {

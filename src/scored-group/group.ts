@@ -1,23 +1,20 @@
-import {
-  parseResultsTable,
-  formatSailedResult,
-  formatScore,
-} from './html-parser';
-import { Boat, compareSeriesResults } from './boat';
+import { parseResultsTable } from '../html/parse-results-table';
+import { formatSailedResult, formatScore } from '../html/helpers';
+import { Competitor, compareSeriesResults } from './competitor';
 import { getSailedResult } from './result';
-import { Column } from './column';
+import { Column } from '../html/column';
 import { SailedRace, NotSailedRace, Race } from './race';
 import { getDiscardIndexes } from './score';
 
 /**
- * A group (also referred to as a "Scored Group") is a set of boats that are
+ * A group (also referred to as a "Scored Group") is a set of competitors that are
  * scored against each other in a series.
  */
 export class Group {
   caption: string;
   id: string | null;
   title: string;
-  boats: Boat[];
+  competitors: Competitor[];
   resultsColumns: Column[];
   races: Race[];
   qualifiedCount: number;
@@ -26,7 +23,7 @@ export class Group {
     this.id = partial.id ?? null;
     this.caption = partial.caption ?? '';
     this.title = partial.title ?? '';
-    this.boats = partial.boats ?? [];
+    this.competitors = partial.competitors ?? [];
     this.resultsColumns = partial.resultsColumns ?? [];
     this.qualifiedCount = partial.qualifiedCount ?? 0;
     this.races = processRaces(this, raceCount);
@@ -38,13 +35,13 @@ export class Group {
   }
 
   protected recalculateDiscards() {
-    for (const boat of this.boats) {
+    for (const competitor of this.competitors) {
       // Calculate the number of discards allowed and collect the scores for
       // each race.
       let discardsAllowed = 0;
       let totalScore = 0;
       const scores = [];
-      for (const result of boat.results) {
+      for (const result of competitor.results) {
         const sailedResult = getSailedResult(result);
         if (!sailedResult) {
           // Still add the score so we get the index right.
@@ -66,40 +63,43 @@ export class Group {
       // Mark the appropriate races.
       let netScore = totalScore;
       for (const index of discardIndexes) {
-        const sailedResult = getSailedResult(boat.results[index]);
+        const sailedResult = getSailedResult(competitor.results[index]);
         // We cannot discard a race that has not been sailed.
         if (!sailedResult) continue;
         sailedResult.isDiscard = true;
         netScore -= sailedResult.score;
       }
 
-      // Set the totals for the boat and we are done.
-      boat.total = totalScore;
-      boat.net = netScore;
+      // Set the totals for the competitor and we are done.
+      competitor.total = totalScore;
+      competitor.net = netScore;
     }
   }
 
   recalculateRankings() {
-    console.log('Before', JSON.parse(JSON.stringify(this.boats)));
-    this.boats.sort(compareSeriesResults);
-    console.log('After', JSON.parse(JSON.stringify(this.boats)));
+    console.log('Before', JSON.parse(JSON.stringify(this.competitors)));
+    this.competitors.sort(compareSeriesResults);
+    console.log('After', JSON.parse(JSON.stringify(this.competitors)));
   }
 
   render() {
     let rank = 0;
-    for (const boat of this.boats) {
+    for (const competitor of this.competitors) {
       // Place this in order in the DOM to suit the new ranking.
-      if (boat.elements?.boat?.parentElement) {
-        boat.elements.boat.parentElement.insertBefore(boat.elements.boat, null);
+      if (competitor.elements?.competitor?.parentElement) {
+        competitor.elements.competitor.parentElement.insertBefore(
+          competitor.elements.competitor,
+          null,
+        );
       }
       // Update the ranking.
       ++rank;
-      if (boat.elements?.rank) {
-        boat.elements.rank.textContent = getOrdinal(rank);
+      if (competitor.elements?.rank) {
+        competitor.elements.rank.textContent = getOrdinal(rank);
       }
 
       // Update all the scores in the DOM.
-      for (const result of boat.results) {
+      for (const result of competitor.results) {
         const sailedResult = getSailedResult(result);
         if (!sailedResult) {
           // Skip races not sailed.
@@ -109,9 +109,9 @@ export class Group {
       }
 
       // Check these exist to avoid any problems.
-      if (boat?.elements?.net && boat.elements.total) {
-        boat.elements.net.textContent = formatScore(boat.net);
-        boat.elements.total.textContent = formatScore(boat.total);
+      if (competitor?.elements?.net && competitor.elements.total) {
+        competitor.elements.net.textContent = formatScore(competitor.net);
+        competitor.elements.total.textContent = formatScore(competitor.total);
       }
     }
   }
@@ -141,7 +141,7 @@ export const parseGroup = (titleElement: Element): Group => {
       const results = parseResultsTable(el);
       raceCount = results.raceCount;
       partialGroup.qualifiedCount = results.qualifiedCount;
-      partialGroup.boats = results.boats;
+      partialGroup.competitors = results.competitors;
       partialGroup.resultsColumns = results.columns;
     }
   }
@@ -154,8 +154,8 @@ const processRaces = (group: Group, raceCount: number): Race[] => {
   // Build results for each race.
   for (let i = 0; i < raceCount; ++i) {
     const race: Partial<Race> = {};
-    // Look at each boat's result for the race.
-    for (const { results } of group.boats) {
+    // Look at each competitor's result for the race.
+    for (const { results } of group.competitors) {
       const sailedResult = getSailedResult(results[i]);
 
       if (!sailedResult) {
@@ -173,7 +173,7 @@ const processRaces = (group: Group, raceCount: number): Race[] => {
         (race as SailedRace).ctsCount = 0;
       }
       if (sailedResult.isCts) {
-        // Add the boat to the count of boats that came to the start area.
+        // Add the competitor to the count of competitors that came to the start area.
         ++(race as SailedRace).ctsCount;
       }
     }

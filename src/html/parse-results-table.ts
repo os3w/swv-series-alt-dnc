@@ -1,33 +1,16 @@
-import { Boat } from './boat';
+import { Competitor } from '../scored-group/competitor';
 import {
   cameToStartingArea,
   NotSailedResult,
   Result,
   SailedResult,
-} from './result';
+} from '../scored-group/result';
 import { Column } from './column';
-
-/*
-export class Results {
-  /** The boats entered in this group. * /
-  boats: Boat[];
-  /** The columns of the results table. * /
-  columns: Column[];
-  /** Races for this group (may not all be sailed). * /
-  races: Race[];
-
-  constructor(partial: Partial<Results>) {
-    this.columns = partial.columns ?? [];
-    this.boats = partial.boats ?? [];
-    this.races = partial.races ?? [];
-  }
-}
-*/
-
-export const DNQ = 'DNQ';
+import { DNQ } from '../scored-group/result';
+import { parseValue } from './helpers';
 
 class ResultsHtmlParser {
-  boats: Boat[] = [];
+  competitors: Competitor[] = [];
   columns: Column[] = [];
   raceCount = 0;
   qualifiedCount = 0;
@@ -96,20 +79,20 @@ class ResultsHtmlParser {
   }
 
   /**
-   * Parse a boat's summary row in a results table.
+   * Parse a competitor's summary row in a results table.
    *
    * @param parent The <tr> node.
    * @returns The parsed columns.
    */
-  parseSummaryRow(parent: HTMLElement): Boat {
-    const boat: Boat = {
+  parseSummaryRow(parent: HTMLElement): Competitor {
+    const competitor: Competitor = {
       rank: NaN,
       net: NaN,
       total: NaN,
       results: [],
       // elements {},
     };
-    boat.elements = { boat: parent };
+    competitor.elements = { competitor: parent };
 
     // Column index.
     let colIndex = 0;
@@ -122,31 +105,33 @@ class ResultsHtmlParser {
       ++colIndex;
       switch (column.type) {
         case 'rank':
-          boat.elements.rank = node;
-          boat.rank = parseRank(node.textContent);
-          if (boat.rank !== DNQ) {
+          competitor.elements.rank = node;
+          competitor.rank = parseRank(node.textContent);
+          if (competitor.rank !== DNQ) {
             ++this.qualifiedCount;
           }
           break;
         case 'total':
-          boat.elements.total = node;
-          boat.total = parseValue(node.textContent);
+          competitor.elements.total = node;
+          competitor.total = parseValue(node.textContent);
           break;
         case 'nett':
-          boat.elements.net = node;
-          boat.net = parseValue(node.textContent);
+          competitor.elements.net = node;
+          competitor.net = parseValue(node.textContent);
           break;
         case 'race':
-          boat.results[column.index] = this.parseRaceScore(node as HTMLElement);
+          competitor.results[column.index] = this.parseRaceScore(
+            node as HTMLElement,
+          );
         // Ignore labels for now.
         // case 'label':
       }
     }
-    return boat;
+    return competitor;
   }
 
   /**
-   * Parse a boat's summary row in a results table.
+   * Parse a competitor's summary row in a results table.
    *
    * @param parent The <tr> node.
    * @returns The parsed columns.
@@ -158,7 +143,7 @@ class ResultsHtmlParser {
         continue;
       }
 
-      this.boats.push(this.parseSummaryRow(node as HTMLElement));
+      this.competitors.push(this.parseSummaryRow(node as HTMLElement));
     }
   }
 }
@@ -185,7 +170,7 @@ export const parseRaceScore = (text: string) => {
 };
 
 /**
- * Extract results for each boat from a summary results table.
+ * Extract results for each competitor from a summary results table.
  *
  * @param element the <table> element.
  * @returns the results.
@@ -193,32 +178,3 @@ export const parseRaceScore = (text: string) => {
 export const parseResultsTable = (element: Element): ResultsHtmlParser => {
   return new ResultsHtmlParser().parse(element);
 };
-
-/**
- * Convert a (possibly null) string to a numerical score x 10.
- *
- * @param text the displayed score.
- * @returns the score x 10.
- */
-export const parseValue = (text: string | null): number => {
-  if (text === null) return 0;
-  return Math.round(parseFloat(text) * 10);
-};
-
-/**
- *
- * @param result
- */
-export const formatSailedResult = ({
-  code,
-  isDiscard,
-  score,
-}: SailedResult) => {
-  // Sailwave Effects import breaks on template strings so don't use them.
-  // const text = code ? `${formatScore(score)} ${code}` : formatScore(score);
-  // return isDiscard ? `(${text})` : text;
-  const text = code ? formatScore(score) + ' ' + code : formatScore(score);
-  return isDiscard ? '(' + text + ')' : text;
-};
-
-export const formatScore = (score: number) => (score / 10).toFixed(1);

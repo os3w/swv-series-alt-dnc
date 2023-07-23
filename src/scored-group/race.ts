@@ -3,7 +3,7 @@ export type Race = SailedRace | NotSailedRace;
 export class SailedRace {
   /** Flag indicating the race was sailed. */
   isSailed = true;
-  /** The number of boats that came to the start area. */
+  /** The number of competitors that came to the start area. */
   ctsCount: number;
 
   constructor(partial: Partial<SailedRace>) {

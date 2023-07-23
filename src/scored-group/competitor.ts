@@ -1,6 +1,6 @@
 import { Result, DNQ } from './result';
 
-export interface Boat {
+export interface Competitor {
   // The finishing rank.
   rank: number | 'DNQ';
   // The net series score as a number x 10.
@@ -9,8 +9,8 @@ export interface Boat {
   total: number;
 
   elements?: {
-    /** The TR for the boat. */
-    boat?: Element;
+    /** The TR for the competitor. */
+    competitor?: Element;
     /** The TD showing the rank. */
     rank?: Element;
     /** The TD showing the net score. */
@@ -32,7 +32,7 @@ export interface Boat {
  * @param b Second competitor's race scores.ss
  * @returns
  */
-export const compareSeriesResults = (a: Boat, b: Boat): number => {
+export const compareSeriesResults = (a: Competitor, b: Competitor): number => {
   // If only one is DNQ it is easy.
   if (a.rank === DNQ) {
     if (b.rank !== DNQ) {

@@ -1,3 +1,3 @@
 export { version } from './version';
-export { parseResultsHtml } from './results-file';
-export { rescoreDncBasedOnQualifiers } from './score';
+export { parseResultsHtml } from './html';
+export { rescoreQualifiers, rescoreQualifyingRaces } from './score';

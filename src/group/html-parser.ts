@@ -1,11 +1,11 @@
+import { Boat } from './boat';
 import {
-  Boat,
-  BoatNotSailedResult,
-  BoatResult,
-  BoatSailedResult,
-} from './boat';
+  cameToStartingArea,
+  NotSailedResult,
+  Result,
+  SailedResult,
+} from './result';
 import { Column } from './column';
-import { cameToStartingArea } from '../result-codes';
 
 /*
 export class Results {
@@ -26,7 +26,7 @@ export class Results {
 
 export const DNQ = 'DNQ';
 
-class ResultsParser {
+class ResultsHtmlParser {
   boats: Boat[] = [];
   columns: Column[] = [];
   raceCount = 0;
@@ -79,10 +79,10 @@ class ResultsParser {
     }
   }
 
-  parseRaceScore(element: HTMLElement): BoatResult {
+  parseRaceScore(element: HTMLElement): Result {
     const html = element.innerHTML;
     if (html === '&nbsp;') {
-      return { element, html, isNotSailed: true } as BoatNotSailedResult;
+      return { element, html, isNotSailed: true } as NotSailedResult;
     }
     const { isCts, isDiscard, score, code } = parseRaceScore(html);
     return {
@@ -92,7 +92,7 @@ class ResultsParser {
       isDiscard,
       score,
       code,
-    } as BoatSailedResult;
+    } as SailedResult;
   }
 
   /**
@@ -101,10 +101,15 @@ class ResultsParser {
    * @param parent The <tr> node.
    * @returns The parsed columns.
    */
-  parseSummaryRow(parent: HTMLElement) {
-    const boat: Partial<Boat> = {};
-    boat.elements = {};
-    boat.races = [];
+  parseSummaryRow(parent: HTMLElement): Boat {
+    const boat: Boat = {
+      rank: NaN,
+      net: NaN,
+      total: NaN,
+      results: [],
+      // elements {},
+    };
+    boat.elements = { boat: parent };
 
     // Column index.
     let colIndex = 0;
@@ -132,12 +137,12 @@ class ResultsParser {
           boat.net = parseValue(node.textContent);
           break;
         case 'race':
-          boat.races[column.index] = this.parseRaceScore(node as HTMLElement);
+          boat.results[column.index] = this.parseRaceScore(node as HTMLElement);
         // Ignore labels for now.
         // case 'label':
       }
     }
-    return new Boat(boat);
+    return boat;
   }
 
   /**
@@ -185,8 +190,8 @@ export const parseRaceScore = (text: string) => {
  * @param element the <table> element.
  * @returns the results.
  */
-export const parseResultsTable = (element: Element): ResultsParser => {
-  return new ResultsParser().parse(element);
+export const parseResultsTable = (element: Element): ResultsHtmlParser => {
+  return new ResultsHtmlParser().parse(element);
 };
 
 /**
@@ -208,7 +213,7 @@ export const formatSailedResult = ({
   code,
   isDiscard,
   score,
-}: BoatSailedResult) => {
+}: SailedResult) => {
   // Sailwave Effects import breaks on template strings so don't use them.
   // const text = code ? `${formatScore(score)} ${code}` : formatScore(score);
   // return isDiscard ? `(${text})` : text;

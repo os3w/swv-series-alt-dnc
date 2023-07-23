@@ -1,7 +1,7 @@
-import { DNC } from '../result-codes';
+import { DNC } from '../group/result';
 
 import type { Group } from '../group';
-import type { BoatNotSailedResult, BoatSailedResult } from '../group/boat';
+import { getSailedResult } from '../group/result';
 import type { SailedRace } from '../group/race';
 
 /**
@@ -25,8 +25,8 @@ export const rescoreDncBasedOnQualifiers = (group: Group) => {
     }
 
     for (const boat of boats) {
-      const result = boat.races[raceIndex] as BoatSailedResult;
-      if ((result as unknown as BoatNotSailedResult).isNotSailed) {
+      const result = getSailedResult(boat.results[raceIndex]);
+      if (result === false) {
         // We shouldn't have a boat without a result for a sailed race, but
         // we will ignore this.
         continue;
@@ -38,41 +38,4 @@ export const rescoreDncBasedOnQualifiers = (group: Group) => {
       }
     }
   }
-};
-
-/**
- * Get the indexes of scores to discard.
- *
- * The indexes are in order of applying the discard algorithm so the index of
- * the highest value is returned first; for equal values the earlier index is
- * returned first.
- *
- * @param scores
- * @param number
- * @returns
- */
-export const calculateDiscards = (
-  scores: number[],
-  number: number,
-): number[] => {
-  if (number < 1) return [];
-
-  // Sort the scores so we know what to discard.
-  const sorted = scores.slice().sort((a: number, b: number) => a - b);
-  const scoresToDiscard = sorted.slice(-number).reverse();
-  const discards = [];
-
-  let lastScore = NaN;
-  let lastIndex = NaN;
-  for (const score of scoresToDiscard) {
-    if (score === lastScore) {
-      lastIndex = scores.indexOf(score, lastIndex + 1);
-      discards.push(lastIndex);
-    } else {
-      lastIndex = scores.indexOf(score);
-      lastScore = score;
-      discards.push(lastIndex);
-    }
-  }
-  return discards;
 };

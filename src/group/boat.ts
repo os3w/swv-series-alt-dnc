@@ -1,23 +1,6 @@
-import { DNQ } from '../result-codes';
+import { Result, DNQ } from './result';
 
-export type BoatResult = BoatSailedResult | BoatNotSailedResult;
-
-export interface BoatNotSailedResult {
-  element: HTMLElement;
-  html: string;
-  isNotSailed: true;
-}
-
-export interface BoatSailedResult {
-  element: HTMLElement;
-  html: string;
-  isCts: boolean;
-  isDiscard: boolean;
-  score: number;
-  code: string | null;
-}
-
-export class Boat {
+export interface Boat {
   // The finishing rank.
   rank: number | 'DNQ';
   // The net series score as a number x 10.
@@ -25,19 +8,41 @@ export class Boat {
   // The total series score as a number x 10.
   total: number;
 
-  elements: {
+  elements?: {
+    /** The TR for the boat. */
+    boat?: Element;
+    /** The TD showing the rank. */
     rank?: Element;
+    /** The TD showing the net score. */
     net?: Element;
+    /** The TD showing the total score. */
     total?: Element;
   };
 
-  races: BoatResult[];
-
-  constructor(partial: Partial<Boat>) {
-    this.rank = partial.rank ?? DNQ;
-    this.elements = partial.elements ?? {};
-    this.net = partial.net ?? Infinity;
-    this.total = partial.total ?? Infinity;
-    this.races = partial.races ?? [];
-  }
+  results: Result[];
 }
+
+/**
+ * Compare series results for two competitors.
+ */
+
+/**
+ *
+ * @param a First competitor's race scores.
+ * @param b Second competitor's race scores.ss
+ * @returns
+ */
+export const compareSeriesResults = (a: Boat, b: Boat): number => {
+  // If only one is DNQ it is easy.
+  if (a.rank === DNQ) {
+    if (b.rank !== DNQ) {
+      return 1;
+    }
+  } else if (b.rank === DNQ) {
+    return -1;
+  }
+  // If the net scores are different it is easy.
+  const difference = a.net - b.net;
+  if (difference) return difference;
+  return 0;
+};

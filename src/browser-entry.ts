@@ -1,3 +1,4 @@
+import { version } from './version';
 import { parseResultsHtml, rescoreDncBasedOnQualifiers } from '.';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,4 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
     group.recalculate();
     group.render();
   }
+  addProvisionalCaption();
 });
+
+const addProvisionalCaption = () => {
+  const $title =  document .querySelector('.seriestitle');
+  if ($title) {
+    $title?.textContent += 'DNC scores are provisional based on number of qualifiers';
+  }
+  const caption = document.createElement('div');
+  caption.textContent =
+    'calculated by Alt DNC v' +
+    version;
+  $title?.insertAdjacentElement('afterend', caption);
+};

@@ -1,1 +1,1 @@
-export { Group, parseGroup } from './group';
+export { parseGroup } from './group';

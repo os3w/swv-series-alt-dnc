@@ -1,10 +1,12 @@
 import { parseResultsTable } from '../html/parse-results-table';
 import { formatSailedResult, formatScore } from '../html/helpers';
-import { Competitor, compareSeriesResults } from './competitor';
+import { compareSeriesResults } from './competitor';
 import { getSailedResult } from './result';
-import { Column } from '../html/column';
-import { SailedRace, NotSailedRace, Race } from './race';
 import { getDiscardIndexes } from './score';
+
+import type { Column } from '../html/column';
+import type { Competitor } from './competitor';
+import type { SailedRace, Race } from './race';
 
 /**
  * A group (also referred to as a "Scored Group") is a set of competitors that are
@@ -177,7 +179,8 @@ const processRaces = (group: Group, raceCount: number): Race[] => {
         ++(race as SailedRace).ctsCount;
       }
     }
-    races.push(race.isSailed ? new SailedRace(race) : new NotSailedRace());
+    // races.push(race.isSailed ? new SailedRace(race) : new NotSailedRace());
+    races.push(race as Race);
   }
   return races;
 };

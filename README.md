@@ -1,6 +1,7 @@
 # swv-series-alt-dnc
 
-> Effects for Sailwave including alternative calulation of series results.
+> Effects for [Sailwave]https://www.sailwave.com/) sailing results and scoring
+> software including alternative calulation of series results.
 
 ## Quick start
 

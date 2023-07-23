@@ -1,8 +1,8 @@
-import { DNC } from './scored-group/result';
-
-import type { Group } from './scored-group';
+import { DNC, DNQ } from './scored-group/result';
+import { getSailedRace, setRaceNotSailed } from './scored-group/race';
 import { getSailedResult } from './scored-group/result';
-import type { SailedRace } from './scored-group/race';
+
+import type { Group } from './scored-group/group';
 
 /**
  * Adjust the score for each DNC result to the greater of the number of competitors
@@ -18,8 +18,8 @@ export const rescoreQualifiers = (group: Group) => {
   const { competitors, races, qualifiedCount } = group;
 
   for (let raceIndex = 0; raceIndex < races.length; ++raceIndex) {
-    const race = races[raceIndex] as SailedRace;
-    if (!race.isSailed) {
+    const sailedRace = getSailedRace(races[raceIndex]);
+    if (!sailedRace) {
       // We shouldn't have to do anything with a race that is not sailed.
       continue;
     }
@@ -34,7 +34,7 @@ export const rescoreQualifiers = (group: Group) => {
 
       if (result.code === DNC) {
         // Rescore DNC result only.
-        result.score = (Math.max(qualifiedCount, race.ctsCount) + 1) * 10;
+        result.score = (Math.max(qualifiedCount, sailedRace.ctsCount) + 1) * 10;
       }
     }
   }
@@ -54,13 +54,17 @@ export const rescoreQualifyingRaces = (group: Group) => {
   const { competitors, races, qualifiedCount } = group;
 
   for (let raceIndex = 0; raceIndex < races.length; ++raceIndex) {
-    const race = races[raceIndex] as SailedRace;
-    if (!race.isSailed) {
+    const sailedRace = getSailedRace(races[raceIndex]);
+    if (!sailedRace) {
       // We shouldn't have to do anything with a race that is not sailed.
       continue;
     }
 
+    let atLeastOneQualifierCame = false;
     for (const competitor of competitors) {
+      if (!atLeastOneQualifierCame && competitor.rank !== DNQ) {
+        atLeastOneQualifierCame = true;
+      }
       const result = getSailedResult(competitor.results[raceIndex]);
       if (result === false) {
         // We shouldn't have a competitor without a result for a sailed race, but
@@ -70,8 +74,13 @@ export const rescoreQualifyingRaces = (group: Group) => {
 
       if (result.code === DNC) {
         // Rescore DNC result only.
-        result.score = (Math.max(qualifiedCount, race.ctsCount) + 1) * 10;
+        result.score = (Math.max(qualifiedCount, sailedRace.ctsCount) + 1) * 10;
       }
+    }
+
+    // @REVISIT need a test to check this works.
+    if (!atLeastOneQualifierCame) {
+      setRaceNotSailed(sailedRace);
     }
   }
 };

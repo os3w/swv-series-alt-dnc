@@ -39,7 +39,7 @@ class ResultsHtmlParser {
    * @param parent The <colgroup> node.
    * @returns The parsed columns.
    */
-  parseColGroup(parent: HTMLElement): void {
+  protected parseColGroup(parent: HTMLElement): void {
     for (const node of parent.children) {
       // Skip any unexpected nodes.
       if (node.nodeName !== 'COL') continue;
@@ -62,7 +62,7 @@ class ResultsHtmlParser {
     }
   }
 
-  parseRaceScore(element: HTMLElement): Result {
+  protected parseRaceScore(element: HTMLElement): Result {
     const html = element.innerHTML;
     if (html === '&nbsp;') {
       return { element, html, isNotSailed: true } as NotSailedResult;
@@ -84,7 +84,7 @@ class ResultsHtmlParser {
    * @param parent The <tr> node.
    * @returns The parsed columns.
    */
-  parseSummaryRow(parent: HTMLElement): Competitor {
+  protected parseSummaryRow(parent: HTMLElement): Competitor {
     const competitor: Competitor = {
       rank: NaN,
       net: NaN,
@@ -136,7 +136,7 @@ class ResultsHtmlParser {
    * @param parent The <tr> node.
    * @returns The parsed columns.
    */
-  parseSummaryRows(parent: HTMLElement): void {
+  protected parseSummaryRows(parent: HTMLElement): void {
     for (const node of parent.children) {
       // Skip any unexpected nodes.
       if (node.nodeName !== 'TR' || !node.classList.contains('summaryrow')) {

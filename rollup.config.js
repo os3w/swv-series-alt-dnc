@@ -84,7 +84,7 @@ const builds = [
 const warning = ` * Note that this effect only modifies the results that are DISPLAYED when a
  * results file is viewed in a browser with JavaScript enabled; the results
  * stored in the html file are unchanged. For more information see
- * https://github.com/os3w/swv-series-alt-dnc#Result+modifying+effects.`;
+ * https://github.com/os3w/swv-series-alt-dnc#result-modifying-effects.`;
 
 const sailwaveEffectBuilds = [
   {
@@ -92,15 +92,15 @@ const sailwaveEffectBuilds = [
     file: './dist/CountOnlyQualifiers.js',
     banner: `/*!
  * name=Count Only Qualifiers
- * description=Rescore DNC results based on the number of competitors qualifying.
+ * dependencies=
  * author=${pkg.author}
  * version=${pkg.version}
- * date=${datetime.slice(0, 9)}
+ * date=${datetime.slice(0, 10)}
  * url=${pkg.homepage}
  * 
  * Rescore DNC results based on the number of competitors qualifying according
  * to the amendments to the Racing Rules of Sailing described at
- * ${pkg.homepage}#Count+Only+Qualifiers
+ * ${pkg.homepage}#count-only-qualifiers
  *
 ${warning}
  */
@@ -112,7 +112,7 @@ ${banner}
     file: './dist/CountOnlyQualifyingRaces.js',
     banner: `/*!
  * name=Count Only Qualifying Races
- * description=Exclude races and rescore DNC results based on the number of competitors qualifying.
+ * dependencies=
  *
  * author=${pkg.author}
  * version=${pkg.version}
@@ -121,7 +121,7 @@ ${banner}
  *
  * Exclude races and rescore DNC results based on the number of competitors
  * qualifying according to the amendments to the Racing Rules of Sailing
- * described at ${pkg.homepage}#Count+Only+Qualifying+Races.
+ * described at ${pkg.homepage}#count-only-qualifying-races.
  *
 ${warning}
  */

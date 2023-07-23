@@ -1,6 +1,6 @@
 # swv-series-alt-dnc
 
-> Effects for alternative calulation of DNC results for a Sailwave series.
+> Effects for Sailwave including alternative calulation of series results.
 
 ## Quick start
 
@@ -51,16 +51,10 @@ This is designed to implement the following changes to RRS 2020-2024:
 
 This is designed to implement the following change to RRS 2020-2024 **in
 addition to** the changes above for the
-[Count Only Qualifiers](#Count+Only+Qualifiers) effect.
+[Count Only Qualifiers](#count-only-qualifiers) effect.
 
 - In rule Rule 90.3(a) the words "one boat" are replaced with "one boat that
   qualifies for the series in accordance with Rule A2.2".
-
-## Examples
-
-View the files in the examples folder for [before](./examples/base.html) and
-[after](./examples/alt-dnc.html). You need to open them in a browser with
-JavaScript enabled because it all happens in the front end.
 
 ## Development
 

@@ -1,7 +1,7 @@
 {
   "name": "swv-series-alt-dnc",
   "private": "true",
-  "description": "Effect for alternative calulation of DNC results for a Sailwave series",
+  "description": "Effects for Sailwave including alternative calulation of series results.",
   "version": "0.1.0-beta-01",
   "license": "MIT",
   "author": "os3w (https://github.com/os3w)",

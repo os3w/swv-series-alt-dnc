@@ -1,15 +1,15 @@
 # swv-series-alt-dnc
 
-> Effects for [Sailwave]https://www.sailwave.com/) sailing results and scoring
+> Effects for [Sailwave](https://www.sailwave.com/) sailing results and scoring
 > software including alternative calulation of series results.
 
 ## Quick start
 
 1. Download the file for the effect you want:
 
-- [CountOnlyQualifiers.js](https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifiers.js)
+   - [CountOnlyQualifiers.js](https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifiers.js)
 
-- [CountOnlyQualifyingRaces.js](https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifyingRaces.js)
+   - [CountOnlyQualifyingRaces.js](https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifyingRaces.js)
 
 2. Copy it to the Sailwave effects folder. You can open this up within Sailwave
    by choosing \

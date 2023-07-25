@@ -18,6 +18,12 @@ class Parser {
   }
 }
 
+/**
+ * Parse a results document.
+ *
+ * @param doc The DOM tree to parse.
+ * @returns A parsed tree.
+ */
 export const parseResultsHtml = (doc: Document) => {
   return new Parser().parse(doc);
 };

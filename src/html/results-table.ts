@@ -11,7 +11,7 @@ import type {
 import type { Competitor } from '../scored-group/competitor';
 import type { Column } from './column';
 
-class ResultsHtmlParser {
+export class ResultsHtmlParser {
   competitors: Competitor[] = [];
   columns: Column[] = [];
   raceCount = 0;
@@ -36,9 +36,9 @@ class ResultsHtmlParser {
   }
 
   /**
-   * Parse the <colgroup> of a results table.
+   * Parse the `<colgroup>` of a results table.
    *
-   * @param parent The <colgroup> node.
+   * @param parent The `<colgroup>` node.
    * @returns The parsed columns.
    */
   protected parseColGroup(parent: HTMLElement): void {
@@ -83,7 +83,7 @@ class ResultsHtmlParser {
   /**
    * Parse a competitor's summary row in a results table.
    *
-   * @param parent The <tr> node.
+   * @param parent The `<tr>` node.
    * @returns The parsed columns.
    */
   protected parseSummaryRow(parent: HTMLElement): Competitor {
@@ -135,7 +135,7 @@ class ResultsHtmlParser {
   /**
    * Parse a competitor's summary row in a results table.
    *
-   * @param parent The <tr> node.
+   * @param parent The `<tbody>` node.
    * @returns The parsed columns.
    */
   protected parseSummaryRows(parent: HTMLElement): void {
@@ -174,7 +174,7 @@ export const parseRaceScore = (text: string) => {
 /**
  * Extract results for each competitor from a summary results table.
  *
- * @param element the <table> element.
+ * @param element the `<table>` element.
  * @returns the results.
  */
 export const parseResultsTable = (element: Element): ResultsHtmlParser => {

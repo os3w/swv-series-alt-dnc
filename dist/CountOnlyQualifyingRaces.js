@@ -4,7 +4,7 @@
  *
  * author=os3w (https://github.com/os3w)
  * version=0.1.0-beta-01
- * date=2023-07-23
+ * date=2023-07-25
  * url=https://github.com/os3w/swv-series-alt-dnc
  *
  * Exclude races and rescore DNC results based on the number of competitors
@@ -17,7 +17,7 @@
  * https://github.com/os3w/swv-series-alt-dnc#result-modifying-effects.
  */
 /*!
- * SwvSeriesAltDnc v0.1.0-beta-01 2023-07-23 23:30:21
+ * SwvSeriesAltDnc v0.1.0-beta-01 2023-07-25 09:55:17
  * https://github.com/os3w/swv-series-alt-dnc
  * Copyright (C) 2023 os3w (https://github.com/os3w).
  * MIT license.

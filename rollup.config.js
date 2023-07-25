@@ -88,7 +88,7 @@ const warning = ` * Note that this effect only modifies the results that are DIS
 
 const sailwaveEffectBuilds = [
   {
-    input: './src/count-only-qualifiers.ts',
+    input: './src/effect/count-only-qualifiers.ts',
     file: './dist/CountOnlyQualifiers.js',
     banner: `/*!
  * name=Count Only Qualifiers
@@ -108,7 +108,7 @@ ${banner}
 `,
   },
   {
-    input: './src/count-only-qualifying-races.ts',
+    input: './src/effect/count-only-qualifying-races.ts',
     file: './dist/CountOnlyQualifyingRaces.js',
     banner: `/*!
  * name=Count Only Qualifying Races

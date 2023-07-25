@@ -29,7 +29,7 @@ export interface Competitor {
 /**
  *
  * @param a First competitor's race scores.
- * @param b Second competitor's race scores.ss
+ * @param b Second competitor's race scores.
  * @returns
  */
 export const compareSeriesResults = (a: Competitor, b: Competitor): number => {

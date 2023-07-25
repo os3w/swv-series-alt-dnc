@@ -69,11 +69,10 @@ export class ResultsHtmlParser {
     if (html === '&nbsp;') {
       return { element, html, isNotSailed: true } as NotSailedResult;
     }
-    const { isCts, isDiscard, score, code } = parseRaceScore(html);
+    const { isDiscard, score, code } = parseRaceScore(html);
     return {
       element,
       html,
-      isCts,
       isDiscard,
       score,
       code,

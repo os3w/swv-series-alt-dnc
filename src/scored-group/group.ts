@@ -28,7 +28,7 @@ export const recalculateDiscards = (group: Group) => {
     // Calculate the number of discards allowed and collect the scores for
     // each race.
     let discardsAllowed = 0;
-    let totalScore = 0;
+    let totalScoreTimesTen = 0;
     const scores = [];
     for (const result of competitor.results) {
       const sailedResult = checkIsSailedResult(result);
@@ -43,25 +43,25 @@ export const recalculateDiscards = (group: Group) => {
         ++discardsAllowed;
         sailedResult.isDiscard = false;
       }
-      totalScore += score;
+      totalScoreTimesTen += Math.round(score * 10);
       scores.push(score);
     }
     // Get which results to discard.
     const discardIndexes = getDiscardIndexes(scores, discardsAllowed);
 
     // Mark the appropriate races.
-    let netScore = totalScore;
+    let netScoreTimesTen = totalScoreTimesTen;
     for (const index of discardIndexes) {
       const sailedResult = checkIsSailedResult(competitor.results[index]);
       // We cannot discard a race that has not been sailed.
       if (!sailedResult) continue;
       sailedResult.isDiscard = true;
-      netScore -= sailedResult.score;
+      netScoreTimesTen -= Math.round(sailedResult.score * 10);
     }
 
     // Set the totals for the competitor and we are done.
-    competitor.total = totalScore;
-    competitor.net = netScore;
+    competitor.total = totalScoreTimesTen / 10;
+    competitor.net = netScoreTimesTen / 10;
   }
 };
 

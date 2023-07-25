@@ -9,7 +9,7 @@
  */
 import { version, parseResultsHtml, recalculateGroup, renderGroup } from '..';
 
-import { rescoreQualifiers } from '../alternative-dnc';
+import { rescoreQualifiers } from './alternative-dnc';
 
 const addCaption = () => {
   const $title = document.querySelector('.seriestitle');

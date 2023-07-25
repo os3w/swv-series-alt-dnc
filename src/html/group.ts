@@ -1,4 +1,4 @@
-import { checkIsSailedResult } from '../scored-group';
+import { cameToStartingArea, checkIsSailedResult } from '../scored-group';
 
 import { parseResultsTable } from './results-table';
 import { formatSailedResult, formatScore } from './helpers';
@@ -93,7 +93,7 @@ const processRaces = (group: Group, raceCount: number): GroupRace[] => {
       }
 
       race.isSailed = true;
-      if (sailedResult.isCts) {
+      if (cameToStartingArea(sailedResult.code)) {
         // Add the competitor to the count of competitors that came to the start area.
         ++race.cameToStartArea;
       }

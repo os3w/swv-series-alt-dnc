@@ -3,9 +3,9 @@ import { Result, DNQ } from './result';
 export interface GroupCompetitor {
   // The finishing rank.
   rank: number | 'DNQ';
-  // The net series score as a number x 10.
+  // The net series score.
   net: number;
-  // The total series score as a number x 10.
+  // The total series score.
   total: number;
 
   elements?: {

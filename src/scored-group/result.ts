@@ -12,15 +12,14 @@ export interface NotSailedResult {
 export interface SailedResult {
   element: HTMLElement;
   html: string;
-  isCts: boolean;
   isDiscard: boolean;
   score: number;
   code: string | null;
 }
 
-const notCts = [DNC, 'OOD'];
+const dncCodes = [DNC, 'OOD'];
 
-export const cameToStartingArea = (code: string) => !notCts.includes(code);
+export const cameToStartingArea = (code: string | null) => code === null || !dncCodes.includes(code);
 
 /**
  * Check if a result is a sailed result.

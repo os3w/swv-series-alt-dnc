@@ -9,7 +9,7 @@ import {
   SailedResult,
 } from '../../src/scored-group/result';
 
-import { rescoreQualifiers } from '../../src/alternative-dnc';
+import { rescoreQualifiers } from '../../src/effect/alternative-dnc';
 
 import { getDiscardIndexes } from '../../src/scored-group/score';
 
@@ -28,10 +28,10 @@ describe('Rescoring', function () {
     const result = checkIsSailedResult(
       group.competitors[0].results[2],
     ) as SailedResult;
-    expect(result.score).to.equal(70);
+    expect(result.score).to.equal(7);
 
     rescoreQualifiers(group);
-    expect(result.score).to.equal(50);
+    expect(result.score).to.equal(5);
   });
 
   it('should rescore individual races for the all-in group', function () {
@@ -41,15 +41,15 @@ describe('Rescoring', function () {
     const result = checkIsSailedResult(
       group.competitors[0].results[0],
     ) as SailedResult;
-    expect(result.score).to.equal(290);
+    expect(result.score).to.equal(29);
 
     rescoreQualifiers(group);
-    expect(result.score).to.equal(160);
+    expect(result.score).to.equal(16);
   });
 
   describe('Calculating discards', function () {
     it('should calculate discards correctly', function () {
-      const scores = [160, 10, 10, 50, 20, 10, 10, 80, 50, 10];
+      const scores = [16, 1, 1, 5, 2, 1, 1, 8, 5, 1];
       const discards = getDiscardIndexes(scores, 4);
       expect(discards).to.eql([0, 7, 3, 8]);
     });

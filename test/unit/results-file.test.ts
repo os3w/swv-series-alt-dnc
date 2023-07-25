@@ -4,7 +4,10 @@ import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 
 import { parseResultsHtml } from '../../src/html';
-import { getSailedResult, SailedResult } from '../../src/scored-group/result';
+import {
+  checkIsSailedResult,
+  SailedResult,
+} from '../../src/scored-group/result';
 
 const content = readFileSync(
   './examples/results-v2-groups-all-races.html',
@@ -30,7 +33,7 @@ describe('Results file functions', function () {
       const group = results.groups[3];
       expect(group.id).to.equal('handicap');
 
-      const result = getSailedResult(
+      const result = checkIsSailedResult(
         group.competitors[0].results[3],
       ) as SailedResult;
       expect(result.isCts).to.be.true;

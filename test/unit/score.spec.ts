@@ -4,9 +4,12 @@ import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 
 import { parseResultsHtml } from '../../src/html';
-import { getSailedResult, SailedResult } from '../../src/scored-group/result';
+import {
+  checkIsSailedResult,
+  SailedResult,
+} from '../../src/scored-group/result';
 
-import { rescoreQualifiers } from '../../src/score';
+import { rescoreQualifiers } from '../../src/alternative-dnc';
 
 import { getDiscardIndexes } from '../../src/scored-group/score';
 
@@ -22,7 +25,7 @@ describe('Rescoring', function () {
     const group = results.groups[3];
     expect(group.id).to.equal('handicap');
 
-    const result = getSailedResult(
+    const result = checkIsSailedResult(
       group.competitors[0].results[2],
     ) as SailedResult;
     expect(result.score).to.equal(70);
@@ -35,7 +38,7 @@ describe('Rescoring', function () {
     const group = results.groups[0];
     expect(group.id).to.equal('all_in_handicap');
 
-    const result = getSailedResult(
+    const result = checkIsSailedResult(
       group.competitors[0].results[0],
     ) as SailedResult;
     expect(result.score).to.equal(290);

@@ -6,13 +6,13 @@ import type {
   NotSailedResult,
   Result,
   SailedResult,
-} from '../scored-group/result';
+  GroupCompetitor,
+} from '../scored-group';
 
-import type { Competitor } from '../scored-group/competitor';
 import type { Column } from './column';
 
 export class ResultsHtmlParser {
-  competitors: Competitor[] = [];
+  competitors: GroupCompetitor[] = [];
   columns: Column[] = [];
   raceCount = 0;
   qualifiedCount = 0;
@@ -86,8 +86,8 @@ export class ResultsHtmlParser {
    * @param parent The `<tr>` node.
    * @returns The parsed columns.
    */
-  protected parseSummaryRow(parent: HTMLElement): Competitor {
-    const competitor: Competitor = {
+  protected parseSummaryRow(parent: HTMLElement): GroupCompetitor {
+    const competitor: GroupCompetitor = {
       rank: NaN,
       net: NaN,
       total: NaN,

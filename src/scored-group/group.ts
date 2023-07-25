@@ -1,10 +1,9 @@
 import { compareSeriesResults } from './competitor';
-import { DNQ, getSailedResult } from './result';
+import { DNQ, checkIsSailedResult } from './result';
 import { getDiscardIndexes } from './score';
 
-import type { Column } from '../html/column';
-import type { Competitor } from './competitor';
-import type { Race } from './race';
+import type { GroupCompetitor } from './competitor';
+import type { GroupRace } from './race';
 
 /**
  * A group (also referred to as a "Scored Group") is a set of competitors that are
@@ -14,9 +13,8 @@ export interface Group {
   caption: string;
   id: string | null;
   title: string;
-  competitors: Competitor[];
-  resultsColumns: Column[];
-  races: Race[];
+  competitors: GroupCompetitor[];
+  races: GroupRace[];
   qualifiedCount: number;
 }
 
@@ -33,7 +31,7 @@ export const recalculateDiscards = (group: Group) => {
     let totalScore = 0;
     const scores = [];
     for (const result of competitor.results) {
-      const sailedResult = getSailedResult(result);
+      const sailedResult = checkIsSailedResult(result);
       if (!sailedResult) {
         // Still add the score so we get the index right.
         scores.push(-Infinity);
@@ -54,7 +52,7 @@ export const recalculateDiscards = (group: Group) => {
     // Mark the appropriate races.
     let netScore = totalScore;
     for (const index of discardIndexes) {
-      const sailedResult = getSailedResult(competitor.results[index]);
+      const sailedResult = checkIsSailedResult(competitor.results[index]);
       // We cannot discard a race that has not been sailed.
       if (!sailedResult) continue;
       sailedResult.isDiscard = true;

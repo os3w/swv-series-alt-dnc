@@ -1,4 +1,4 @@
-import type { SailedResult } from '../scored-group/result';
+import type { SailedResult } from '../scored-group';
 
 /**
  * Convert a (possibly null) string to a numerical score x 10.

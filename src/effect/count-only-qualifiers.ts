@@ -1,19 +1,15 @@
 /**
  * This is the entry point for the CountOnlyQualifiers effect.
- * 
+ *
  * There are no exports, this module only has the side-effect of modifying the
  * DOM to reflect rescoring according to the changes to the rules described
  * at [blah](../blah).
- * 
+ *
  * @module effect/count-only-qualifiers
  */
-import {
-  version,
-  parseResultsHtml,
-  rescoreQualifiers,
-  recalculateGroup,
-  renderGroup,
-} from '..';
+import { version, parseResultsHtml, recalculateGroup, renderGroup } from '..';
+
+import { rescoreQualifiers } from '../alternative-dnc';
 
 const addCaption = () => {
   const $title = document.querySelector('.seriestitle');

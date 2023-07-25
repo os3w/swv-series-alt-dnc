@@ -1,6 +1,6 @@
 import { Result, DNQ } from './result';
 
-export interface Competitor {
+export interface GroupCompetitor {
   // The finishing rank.
   rank: number | 'DNQ';
   // The net series score as a number x 10.
@@ -32,7 +32,10 @@ export interface Competitor {
  * @param b Second competitor's race scores.
  * @returns
  */
-export const compareSeriesResults = (a: Competitor, b: Competitor): number => {
+export const compareSeriesResults = (
+  a: GroupCompetitor,
+  b: GroupCompetitor,
+): number => {
   // If only one is DNQ it is easy.
   if (a.rank === DNQ) {
     if (b.rank !== DNQ) {

@@ -1,4 +1,6 @@
+/**
+ * @module @os3w/sailwave-effects
+ */
 export { version } from './version';
-export { parseResultsHtml, renderGroup } from './html';
-export { rescoreQualifiers, rescoreQualifyingRaces } from './score';
+export * from './html';
 export * from './scored-group';

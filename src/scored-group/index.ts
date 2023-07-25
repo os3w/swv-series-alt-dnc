@@ -1,7 +1,6 @@
-export { getSailedResult, cameToStartingArea, DNQ } from './result';
+export { checkIsSailedResult, cameToStartingArea, DNC, DNQ } from './result';
 export { recalculateGroup } from './group';
-
-export type * from './group';
-export type * from './race';
-export type * from './competitor';
-export type * from './result';
+export type { Group } from './group';
+export type { GroupRace } from './race';
+export type { GroupCompetitor } from './competitor';
+export type { Result, SailedResult, NotSailedResult } from './result';

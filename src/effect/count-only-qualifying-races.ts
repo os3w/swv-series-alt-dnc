@@ -1,10 +1,6 @@
-import {
-  version,
-  parseResultsHtml,
-  rescoreQualifyingRaces,
-  recalculateGroup,
-  renderGroup,
-} from '..';
+import { version, parseResultsHtml, recalculateGroup, renderGroup } from '..';
+
+import { rescoreQualifyingRaces } from '../alternative-dnc';
 
 const addCaption = () => {
   const $title = document.querySelector('.seriestitle');

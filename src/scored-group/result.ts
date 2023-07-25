@@ -28,7 +28,7 @@ export const cameToStartingArea = (code: string) => !notCts.includes(code);
  * @param result The result to check.
  * @returns The result if sailed, otherwise false.
  */
-export const getSailedResult = (result: Result): SailedResult | false =>
+export const checkIsSailedResult = (result: Result): SailedResult | false =>
   (result as unknown as NotSailedResult).isNotSailed === true
     ? false
     : (result as SailedResult);

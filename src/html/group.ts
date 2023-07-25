@@ -1,10 +1,9 @@
-import { getSailedResult } from '../scored-group';
+import { checkIsSailedResult } from '../scored-group';
 
 import { parseResultsTable } from './results-table';
 import { formatSailedResult, formatScore } from './helpers';
 
-import type { Group } from '../scored-group/group';
-import type { SailedRace, Race } from '../scored-group/race';
+import type { Group, GroupRace } from '../scored-group';
 
 export const renderGroup = (group: Group) => {
   for (const competitor of group.competitors) {
@@ -21,7 +20,7 @@ export const renderGroup = (group: Group) => {
 
     // Update all the scores in the DOM.
     for (const result of results) {
-      const sailedResult = getSailedResult(result);
+      const sailedResult = checkIsSailedResult(result);
       if (!sailedResult) {
         // Skip races not sailed.
         continue;
@@ -44,7 +43,6 @@ export const parseGroup = (titleElement: Element): Group => {
     caption: '',
     title: titleElement.textContent ?? '',
     competitors: [],
-    resultsColumns: [],
     qualifiedCount: 0,
     races: [],
   };
@@ -67,7 +65,6 @@ export const parseGroup = (titleElement: Element): Group => {
       raceCount = results.raceCount;
       group.qualifiedCount = results.qualifiedCount;
       group.competitors = results.competitors;
-      group.resultsColumns = results.columns;
     }
   }
 
@@ -75,36 +72,35 @@ export const parseGroup = (titleElement: Element): Group => {
   return group;
 };
 
-const processRaces = (group: Group, raceCount: number): Race[] => {
-  const races: Race[] = [];
+const processRaces = (group: Group, raceCount: number): GroupRace[] => {
+  const races: GroupRace[] = [];
   // Build results for each race.
   for (let i = 0; i < raceCount; ++i) {
-    const race: Partial<Race> = {};
+    const race: GroupRace = {
+      isSailed: false,
+      cameToStartArea: 0,
+    };
     // Look at each competitor's result for the race.
     for (const { results } of group.competitors) {
-      const sailedResult = getSailedResult(results[i]);
+      const sailedResult = checkIsSailedResult(results[i]);
 
       if (!sailedResult) {
         if (race.isSailed) {
           // If a race is sailed we should have a score for every competitor,
           // but if we do not we will ignore it.
-          continue;
         }
-        race.isSailed = false;
         continue;
       }
 
-      if (!(race.isSailed === true)) {
-        race.isSailed = true;
-        (race as SailedRace).ctsCount = 0;
-      }
+      race.isSailed = true;
       if (sailedResult.isCts) {
         // Add the competitor to the count of competitors that came to the start area.
-        ++(race as SailedRace).ctsCount;
+        ++race.cameToStartArea;
       }
     }
+
     // races.push(race.isSailed ? new SailedRace(race) : new NotSailedRace());
-    races.push(race as Race);
+    races.push(race);
   }
   return races;
 };

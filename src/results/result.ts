@@ -19,7 +19,15 @@ export interface SailedResult {
 
 const dncCodes = [DNC, 'OOD'];
 
-export const cameToStartingArea = (code: string | null) => code === null || !dncCodes.includes(code);
+/**
+ * Test whether a result code implies that the competitor came to the starting
+ * area.
+ *
+ * @param code A result code (or null for no code which implies that the
+ *             competitor did come).
+ */
+export const cameToStartingArea = (code: string | null) =>
+  code === null || !dncCodes.includes(code);
 
 /**
  * Check if a result is a sailed result.

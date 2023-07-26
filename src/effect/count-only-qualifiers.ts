@@ -4,12 +4,11 @@
  * There are no exports, this module only has the side-effect of modifying the
  * DOM to reflect rescoring according to the changes to the rules described
  * at [blah](../blah).
- *
- * @module effect/count-only-qualifiers
+ * @module
  */
-import { version, parseResultsHtml, recalculateGroup, renderGroup } from '..';
+import { version, parseResultsHtml, scoreGroup, renderGroup } from '..';
 
-import { rescoreQualifiers } from './alternative-dnc';
+import { rescoreQualifiers } from './scoring';
 
 const addCaption = () => {
   const $title = document.querySelector('.seriestitle');
@@ -26,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const results = parseResultsHtml(document);
   for (const group of results.groups) {
     rescoreQualifiers(group);
-    recalculateGroup(group);
+    scoreGroup(group);
     renderGroup(group);
   }
   addCaption();

@@ -8,7 +8,7 @@ import {
   checkIsSailedResult,
   SailedResult,
   cameToStartingArea,
-} from '../../src/scored-group/result';
+} from '../../src/results/result';
 
 const content = readFileSync(
   './examples/results-v2-groups-all-races.html',

@@ -1,4 +1,4 @@
-import type { SailedResult } from '../scored-group';
+import type { SailedResult } from '../results';
 
 /**
  * Convert a (possibly null) string to a numerical score.
@@ -8,6 +8,22 @@ import type { SailedResult } from '../scored-group';
  */
 export const parseValue = (text: string | null): number => {
   return text === null ? 0 : parseFloat(text);
+};
+
+export const formatOrdinal = (n: number): string => {
+  let ordinal = 'th';
+  switch (n % 10) {
+    case 1:
+      if (n % 100 !== 11) ordinal = 'st';
+      break;
+    case 2:
+      if (n % 100 !== 12) ordinal = 'nd';
+      break;
+    case 3:
+      if (n % 100 !== 13) ordinal = 'rd';
+      break;
+  }
+  return n + ordinal;
 };
 
 /**

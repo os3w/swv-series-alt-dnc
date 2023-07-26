@@ -1,4 +1,4 @@
-import { cameToStartingArea, DNQ } from '../scored-group';
+import { cameToStartingArea, DNQ } from '../results';
 
 import { parseValue } from './helpers';
 
@@ -7,11 +7,11 @@ import type {
   Result,
   SailedResult,
   GroupCompetitor,
-} from '../scored-group';
+} from '../results';
 
 import type { Column } from './column';
 
-export class ResultsHtmlParser {
+export class GroupTableParser {
   competitors: GroupCompetitor[] = [];
   columns: Column[] = [];
   raceCount = 0;
@@ -176,6 +176,6 @@ export const parseRaceScore = (text: string) => {
  * @param element the `<table>` element.
  * @returns the results.
  */
-export const parseResultsTable = (element: Element): ResultsHtmlParser => {
-  return new ResultsHtmlParser().parse(element);
+export const parseResultsTable = (element: Element): GroupTableParser => {
+  return new GroupTableParser().parse(element);
 };

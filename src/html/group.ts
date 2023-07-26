@@ -1,9 +1,9 @@
-import { cameToStartingArea, checkIsSailedResult } from '../scored-group';
+import { cameToStartingArea, checkIsSailedResult } from '../results';
 
-import { parseResultsTable } from './results-table';
-import { formatSailedResult, formatScore } from './helpers';
+import { parseResultsTable } from './parse-group-table';
+import { formatSailedResult, formatScore, formatOrdinal } from './helpers';
 
-import type { Group, GroupRace } from '../scored-group';
+import type { Group, GroupRace } from '../results';
 
 export const renderGroup = (group: Group) => {
   for (const competitor of group.competitors) {
@@ -15,7 +15,7 @@ export const renderGroup = (group: Group) => {
     // Update the ranking.
     if (elements?.rank) {
       elements.rank.textContent =
-        typeof rank === 'number' ? getOrdinal(rank) : rank;
+        typeof rank === 'number' ? formatOrdinal(rank) : rank;
     }
 
     // Update all the scores in the DOM.
@@ -78,7 +78,7 @@ const processRaces = (group: Group, raceCount: number): GroupRace[] => {
   for (let i = 0; i < raceCount; ++i) {
     const race: GroupRace = {
       isSailed: false,
-      cameToStartArea: 0,
+      countCameToStart: 0,
     };
     // Look at each competitor's result for the race.
     for (const { results } of group.competitors) {
@@ -95,7 +95,7 @@ const processRaces = (group: Group, raceCount: number): GroupRace[] => {
       race.isSailed = true;
       if (cameToStartingArea(sailedResult.code)) {
         // Add the competitor to the count of competitors that came to the start area.
-        ++race.cameToStartArea;
+        ++race.countCameToStart;
       }
     }
 
@@ -103,20 +103,4 @@ const processRaces = (group: Group, raceCount: number): GroupRace[] => {
     races.push(race);
   }
   return races;
-};
-
-export const getOrdinal = (n: number): string => {
-  let ordinal = 'th';
-  switch (n % 10) {
-    case 1:
-      if (n % 100 !== 11) ordinal = 'st';
-      break;
-    case 2:
-      if (n % 100 !== 12) ordinal = 'nd';
-      break;
-    case 3:
-      if (n % 100 !== 13) ordinal = 'rd';
-      break;
-  }
-  return n + ordinal;
 };

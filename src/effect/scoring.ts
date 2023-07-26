@@ -1,6 +1,6 @@
-import { DNC, DNQ, checkIsSailedResult } from '../scored-group';
+import { DNC, DNQ, checkIsSailedResult } from '../results';
 
-import type { Group } from '../scored-group';
+import type { Group } from '../results';
 
 /**
  * Adjust the score for each DNC result to the greater of the number of competitors
@@ -32,8 +32,7 @@ export const rescoreQualifiers = (group: Group) => {
 
       if (result.code === DNC) {
         // Rescore DNC result only.
-        result.score =
-          (Math.max(qualifiedCount, race.cameToStartArea) + 1);
+        result.score = Math.max(qualifiedCount, race.countCameToStart) + 1;
       }
     }
   }
@@ -73,8 +72,7 @@ export const rescoreQualifyingRaces = (group: Group) => {
 
       if (result.code === DNC) {
         // Rescore DNC result only.
-        result.score =
-          (Math.max(qualifiedCount, race.cameToStartArea) + 1);
+        result.score = Math.max(qualifiedCount, race.countCameToStart) + 1;
       }
     }
 

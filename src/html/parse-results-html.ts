@@ -1,20 +1,25 @@
 import { parseGroup } from './group';
 
-import type { Group } from '../scored-group';
+import type { Group } from '../results';
 
-class Parser {
+export interface ParsedResults {
+  groups: Group[];
+}
+
+export class ResultsHtmlParser {
   parse(doc: Document) {
+    const parsed: ParsedResults = {
+      groups: [],
+    };
     const groupTitleElements = doc.querySelectorAll('.summarytitle');
-    const groups: Group[] = [];
+
     groupTitleElements.forEach((el) => {
       const group = parseGroup(el);
       if (group) {
-        groups.push(group);
+        parsed.groups.push(group);
       }
     });
-    return {
-      groups,
-    };
+    return parsed;
   }
 }
 
@@ -25,5 +30,5 @@ class Parser {
  * @returns A parsed tree.
  */
 export const parseResultsHtml = (doc: Document) => {
-  return new Parser().parse(doc);
+  return new ResultsHtmlParser().parse(doc);
 };

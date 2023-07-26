@@ -1,15 +1,21 @@
 module.exports = {
   entryPoints: [
-    // 'src',
     'src/index.ts',
     'src/effect/count-only-qualifiers.ts',
     'src/effect/count-only-qualifying-races.ts',
-    // 'src/html/index.ts',
   ],
-  entryPointStrategy: 'expand',
+  // entryPointStrategy: 'expand',
   includeVersion: true,
-  excludePrivate: true,
-  excludeProtected: true,
   readme: 'README.api.md',
   // hideParameterTypesInTitle: false,
+  excludePrivate: true,
+  excludeProtected: true,
+  visibilityFilters: {
+    // protected: false,
+    // private: false,
+    // inherited: false,
+    // external: false,
+    // '@alpha': false,
+    // '@beta': false,
+  },
 };

@@ -4,14 +4,11 @@ import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 
 import { parseResultsHtml } from '../../src/html';
-import {
-  checkIsSailedResult,
-  SailedResult,
-} from '../../src/scored-group/result';
+import { checkIsSailedResult, SailedResult } from '../../src/results/result';
 
-import { rescoreQualifiers } from '../../src/effect/alternative-dnc';
+import { rescoreQualifiers } from '../../src/effect/scoring';
 
-import { getDiscardIndexes } from '../../src/scored-group/score';
+import { getDiscardIndexes } from '../../src/results/scoring';
 
 const content = readFileSync(
   './examples/results-v2-groups-all-races.html',

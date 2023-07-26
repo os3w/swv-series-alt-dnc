@@ -11,11 +11,11 @@
 
    - [CountOnlyQualifiers.js](https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifiers.js)
 
-   - <a href="https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifiers.js" download>CountOnlyQualifiers.js</a>
+   - <a href="./assets/dist/CountOnlyQualifiers.js" download>CountOnlyQualifiers.js</a>
+
+   - <a href="./assets/dist/CountOnlyQualifiers.js" download="CountOnlyQualifiers.js">CountOnlyQualifiers.js</a>
 
    - [CountOnlyQualifyingRaces.js](https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifyingRaces.js)
-
-   - <a href="https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifyingRaces.js" download>CountOnlyQualifyingRaces.js</a>
 
 2. Copy it to the Sailwave effects folder. You can open this up within Sailwave
    by choosing \

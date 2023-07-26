@@ -12,15 +12,22 @@ export interface NotSailedResult {
 export interface SailedResult {
   element: HTMLElement;
   html: string;
-  isCts: boolean;
   isDiscard: boolean;
   score: number;
   code: string | null;
 }
 
-const notCts = [DNC, 'OOD'];
+const dncCodes = [DNC, 'OOD'];
 
-export const cameToStartingArea = (code: string) => !notCts.includes(code);
+/**
+ * Test whether a result code implies that the competitor came to the starting
+ * area.
+ *
+ * @param code A result code (or null for no code which implies that the
+ *             competitor did come).
+ */
+export const cameToStartingArea = (code: string | null) =>
+  code === null || !dncCodes.includes(code);
 
 /**
  * Check if a result is a sailed result.
@@ -28,7 +35,7 @@ export const cameToStartingArea = (code: string) => !notCts.includes(code);
  * @param result The result to check.
  * @returns The result if sailed, otherwise false.
  */
-export const getSailedResult = (result: Result): SailedResult | false =>
+export const checkIsSailedResult = (result: Result): SailedResult | false =>
   (result as unknown as NotSailedResult).isNotSailed === true
     ? false
     : (result as SailedResult);

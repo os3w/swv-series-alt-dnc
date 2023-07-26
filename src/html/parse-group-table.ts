@@ -1,4 +1,4 @@
-import { cameToStartingArea, DNQ } from '../scored-group';
+import { cameToStartingArea, DNQ } from '../results';
 
 import { parseValue } from './helpers';
 
@@ -6,13 +6,13 @@ import type {
   NotSailedResult,
   Result,
   SailedResult,
-} from '../scored-group/result';
+  GroupCompetitor,
+} from '../results';
 
-import type { Competitor } from '../scored-group/competitor';
 import type { Column } from './column';
 
-class ResultsHtmlParser {
-  competitors: Competitor[] = [];
+export class GroupTableParser {
+  competitors: GroupCompetitor[] = [];
   columns: Column[] = [];
   raceCount = 0;
   qualifiedCount = 0;
@@ -36,9 +36,9 @@ class ResultsHtmlParser {
   }
 
   /**
-   * Parse the <colgroup> of a results table.
+   * Parse the `<colgroup>` of a results table.
    *
-   * @param parent The <colgroup> node.
+   * @param parent The `<colgroup>` node.
    * @returns The parsed columns.
    */
   protected parseColGroup(parent: HTMLElement): void {
@@ -69,11 +69,10 @@ class ResultsHtmlParser {
     if (html === '&nbsp;') {
       return { element, html, isNotSailed: true } as NotSailedResult;
     }
-    const { isCts, isDiscard, score, code } = parseRaceScore(html);
+    const { isDiscard, score, code } = parseRaceScore(html);
     return {
       element,
       html,
-      isCts,
       isDiscard,
       score,
       code,
@@ -83,11 +82,11 @@ class ResultsHtmlParser {
   /**
    * Parse a competitor's summary row in a results table.
    *
-   * @param parent The <tr> node.
+   * @param parent The `<tr>` node.
    * @returns The parsed columns.
    */
-  protected parseSummaryRow(parent: HTMLElement): Competitor {
-    const competitor: Competitor = {
+  protected parseSummaryRow(parent: HTMLElement): GroupCompetitor {
+    const competitor: GroupCompetitor = {
       rank: NaN,
       net: NaN,
       total: NaN,
@@ -135,7 +134,7 @@ class ResultsHtmlParser {
   /**
    * Parse a competitor's summary row in a results table.
    *
-   * @param parent The <tr> node.
+   * @param parent The `<tbody>` node.
    * @returns The parsed columns.
    */
   protected parseSummaryRows(parent: HTMLElement): void {
@@ -174,9 +173,9 @@ export const parseRaceScore = (text: string) => {
 /**
  * Extract results for each competitor from a summary results table.
  *
- * @param element the <table> element.
+ * @param element the `<table>` element.
  * @returns the results.
  */
-export const parseResultsTable = (element: Element): ResultsHtmlParser => {
-  return new ResultsHtmlParser().parse(element);
+export const parseResultsTable = (element: Element): GroupTableParser => {
+  return new GroupTableParser().parse(element);
 };

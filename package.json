@@ -2,7 +2,7 @@
   "name": "swv-series-alt-dnc",
   "private": "true",
   "description": "Effects for Sailwave including alternative calulation of series results.",
-  "version": "0.1.0-beta-01",
+  "version": "0.2.0-beta-01",
   "license": "MIT",
   "author": "os3w (https://github.com/os3w)",
   "repository": "github:os3w/swv-series-alt-dnc",
@@ -19,11 +19,12 @@
     "types"
   ],
   "scripts": {
-    "build": "npm run build:clean && rollup -c && tsc --project tsconfig.types.json",
-    "build:clean": "rimraf \"index.*\" types dist --glob",
-    "lint:fix": "prettier . \"!examples\" --write --ignore-path .eslintignore && eslint . --fix",
-    "lint:check": "prettier . \"!examples\" --check --ignore-path .eslintignore && eslint .",
-    "test:unit": "mocha test/unit/**/*.{spec,test}.{ts,js,?js}"
+    "build": "npm run clean && rollup -c && tsc --project tsconfig.types.json",
+    "clean": "rimraf \"index.*\" types dist --glob",
+    "docs": "typedoc",
+    "fix": "prettier . \"!examples\" --write --ignore-path .eslintignore && eslint . --fix",
+    "check": "prettier . \"!examples\" --check --ignore-path .eslintignore && eslint .",
+    "test:unit": "mocha 'test/unit/**/*.{spec,test}.{ts,{,c,m}js}{,x}'"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^6.0.0",
@@ -43,6 +44,7 @@
     "prettier": "^3.0.0",
     "rollup": "^3.26.2",
     "ts-node": "^10.9.1",
+    "typedoc": "^0.24.8",
     "typescript": "^5.1.6"
   }
 }

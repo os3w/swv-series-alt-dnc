@@ -4,7 +4,11 @@ import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 
 import { parseResultsHtml } from '../../src/html';
-import { getSailedResult, SailedResult } from '../../src/scored-group/result';
+import {
+  checkIsSailedResult,
+  SailedResult,
+  cameToStartingArea,
+} from '../../src/results/result';
 
 const content = readFileSync(
   './examples/results-v2-groups-all-races.html',
@@ -30,11 +34,11 @@ describe('Results file functions', function () {
       const group = results.groups[3];
       expect(group.id).to.equal('handicap');
 
-      const result = getSailedResult(
+      const result = checkIsSailedResult(
         group.competitors[0].results[3],
       ) as SailedResult;
-      expect(result.isCts).to.be.true;
-      expect(result.score).to.equal(10);
+      expect(cameToStartingArea(result.code)).to.be.true;
+      expect(result.score).to.equal(1);
       expect(result.code).to.be.null;
       expect(result.isDiscard).to.be.false;
     });
@@ -44,8 +48,8 @@ describe('Results file functions', function () {
       expect(group.id).to.equal('enterprise');
 
       const result = group.competitors[0].results[0] as SailedResult;
-      expect(result.isCts).to.be.false;
-      expect(result.score).to.equal(13);
+      expect(cameToStartingArea(result.code)).to.be.false;
+      expect(result.score).to.equal(1.3);
       expect(result.code).to.equal('OOD');
       expect(result.isDiscard).to.be.false;
     });
@@ -55,8 +59,8 @@ describe('Results file functions', function () {
       expect(group.id).to.equal('all_in_handicap');
 
       const result = group.competitors[4].results[7] as SailedResult;
-      expect(result.isCts).to.be.true;
-      expect(result.score).to.equal(120);
+      expect(cameToStartingArea(result.code)).to.be.true;
+      expect(result.score).to.equal(12);
       expect(result.code).to.equal('DNF');
       expect(result.isDiscard).to.be.false;
     });
@@ -66,8 +70,8 @@ describe('Results file functions', function () {
       expect(group.id).to.equal('handicap');
 
       const result = group.competitors[1].results[7] as SailedResult;
-      expect(result.isCts).to.be.true;
-      expect(result.score).to.equal(40);
+      expect(cameToStartingArea(result.code)).to.be.true;
+      expect(result.score).to.equal(4);
       expect(result.code).to.equal('DNF');
       expect(result.isDiscard).to.be.true;
     });

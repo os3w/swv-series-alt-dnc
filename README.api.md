@@ -1,3 +1,5 @@
+# API documentation for Sailwave Effects
+
 # swv-series-alt-dnc
 
 > Effects for [Sailwave](https://www.sailwave.com/) sailing results and scoring
@@ -9,7 +11,11 @@
 
    - [CountOnlyQualifiers.js](https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifiers.js)
 
+   - <a href="https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifiers.js" download>CountOnlyQualifiers.js</a>
+
    - [CountOnlyQualifyingRaces.js](https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifyingRaces.js)
+
+   - <a href="https://raw.githubusercontent.com/os3w/swv-series-alt-dnc/main/dist/CountOnlyQualifyingRaces.js" download>CountOnlyQualifyingRaces.js</a>
 
 2. Copy it to the Sailwave effects folder. You can open this up within Sailwave
    by choosing \
@@ -56,30 +62,3 @@ addition to** the changes above for the
 
 - In rule Rule 90.3(a) the words "one boat" are replaced with "one boat that
   qualifies for the series in accordance with Rule A2.2".
-
-## Development
-
-Download and install.
-
-```console
-$ git clone https://github.com/os3w/swv-series-alt-dnc.git
-$ npm install
-```
-
-Lint and format.
-
-```console
-$ npm run lint:fix
-```
-
-Unit tests (need work and more coverage).
-
-```console
-$ npm run test:unit
-```
-
-Build.
-
-```console
-$ npm run build
-```

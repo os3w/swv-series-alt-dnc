@@ -1,14 +1,29 @@
-import type { SailedResult } from '../scored-group/result';
+import type { SailedResult } from '../results';
 
 /**
- * Convert a (possibly null) string to a numerical score x 10.
+ * Convert a (possibly null) string to a numerical score.
  *
  * @param text the displayed score.
- * @returns the score x 10.
+ * @returns the score.
  */
 export const parseValue = (text: string | null): number => {
-  if (text === null) return 0;
-  return Math.round(parseFloat(text) * 10);
+  return text === null ? 0 : parseFloat(text);
+};
+
+export const formatOrdinal = (n: number): string => {
+  let ordinal = 'th';
+  switch (n % 10) {
+    case 1:
+      if (n % 100 !== 11) ordinal = 'st';
+      break;
+    case 2:
+      if (n % 100 !== 12) ordinal = 'nd';
+      break;
+    case 3:
+      if (n % 100 !== 13) ordinal = 'rd';
+      break;
+  }
+  return n + ordinal;
 };
 
 /**
@@ -27,4 +42,4 @@ export const formatSailedResult = ({
   return isDiscard ? '(' + text + ')' : text;
 };
 
-export const formatScore = (score: number) => (score / 10).toFixed(1);
+export const formatScore = (score: number) => score.toFixed(1);

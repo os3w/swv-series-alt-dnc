@@ -4,11 +4,11 @@ import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 
 import { parseResultsHtml } from '../../src/html';
-import { getSailedResult, SailedResult } from '../../src/scored-group/result';
+import { checkIsSailedResult, SailedResult } from '../../src/results/result';
 
-import { rescoreQualifiers } from '../../src/score';
+import { rescoreQualifiers } from '../../src/effect/scoring';
 
-import { getDiscardIndexes } from '../../src/scored-group/score';
+import { getDiscardIndexes } from '../../src/results/scoring';
 
 const content = readFileSync(
   './examples/results-v2-groups-all-races.html',
@@ -22,31 +22,31 @@ describe('Rescoring', function () {
     const group = results.groups[3];
     expect(group.id).to.equal('handicap');
 
-    const result = getSailedResult(
+    const result = checkIsSailedResult(
       group.competitors[0].results[2],
     ) as SailedResult;
-    expect(result.score).to.equal(70);
+    expect(result.score).to.equal(7);
 
     rescoreQualifiers(group);
-    expect(result.score).to.equal(50);
+    expect(result.score).to.equal(5);
   });
 
   it('should rescore individual races for the all-in group', function () {
     const group = results.groups[0];
     expect(group.id).to.equal('all_in_handicap');
 
-    const result = getSailedResult(
+    const result = checkIsSailedResult(
       group.competitors[0].results[0],
     ) as SailedResult;
-    expect(result.score).to.equal(290);
+    expect(result.score).to.equal(29);
 
     rescoreQualifiers(group);
-    expect(result.score).to.equal(160);
+    expect(result.score).to.equal(16);
   });
 
   describe('Calculating discards', function () {
     it('should calculate discards correctly', function () {
-      const scores = [160, 10, 10, 50, 20, 10, 10, 80, 50, 10];
+      const scores = [16, 1, 1, 5, 2, 1, 1, 8, 5, 1];
       const discards = getDiscardIndexes(scores, 4);
       expect(discards).to.eql([0, 7, 3, 8]);
     });
